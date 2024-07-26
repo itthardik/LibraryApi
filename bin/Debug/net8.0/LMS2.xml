@@ -1,0 +1,316 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LMS2</name>
+    </assembly>
+    <members>
+        <member name="T:LMS2.Controllers.booksController">
+            <summary>
+            Book Routes
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.booksController.Get">
+            <summary>
+            Get All Books Data
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.booksController.GetByID(System.Int32)">
+            <summary>
+            Get Book Data By Id
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.booksController.AddBook(LMS2.Models.Book)">
+            <summary>
+            Add New Book
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.booksController.DeleteBook(System.Int32)">
+            <summary>
+            Delete Existing Book by Id
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.booksController.PutBook(System.Int32,LMS2.Models.Book)">
+            <summary>
+            Update whole Book Data
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.booksController.PatchBook(System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Patch for updating book by title, description, genre, author, pub_name, pub_des, price, stock
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.booksController.GetBookBySearch(System.String,System.String,System.String,System.String)">
+            <summary>
+            Search book by Title, Genre, AuthorName, PublicationName
+            </summary>
+        </member>
+        <member name="T:LMS2.Controllers.borrowRecordsController">
+            <summary>
+            BorrowRecord Routes
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.borrowRecordsController.Get">
+            <summary>
+            Get All Borrow Records Data
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.borrowRecordsController.GetByID(System.Int32)">
+            <summary>
+            Get Borrow Record Data By Id
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.borrowRecordsController.AddBorrowRecord(LMS2.Models.InputBorrowRecord)">
+            <summary>
+            Add New Borrow Record
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.borrowRecordsController.DeleteBorrowRecord(System.Int32)">
+            <summary>
+            Delete Existing Borrow Records by Id
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.borrowRecordsController.PutBorrowRecord(System.Int32,LMS2.Models.InputBorrowRecord)">
+            <summary>
+            Update whole Borrow Records Data
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.borrowRecordsController.PatchMember(System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Patch for updating Borrow Record by BookID, MemberID, borrowDate, dueDate and ReturnDate
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.borrowRecordsController.GetBorrowRecordBySearch(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Int32},System.String,System.String)">
+            <summary>
+            Search borrow records by bookId, memberId, borrowDate, dueDate, returnDate, bookName, author, genre, publisherName, memberName, email, mobileNumber, city, pincode
+            </summary>
+        </member>
+        <member name="T:LMS2.Controllers.membersController">
+            <summary>
+            Member Routes
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.membersController.Get">
+            <summary>
+            Get All Member Data
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.membersController.GetByID(System.Int32)">
+            <summary>
+            Get Member Data By Id
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.membersController.AddMember(LMS2.Models.Member)">
+            <summary>
+            Add New Member
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.membersController.DeleteMember(System.Int32)">
+            <summary>
+            Delete Existing Member by Id
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.membersController.PutMember(System.Int32,LMS2.Models.Member)">
+            <summary>
+            Update whole Member Data
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.membersController.PatchMember(System.Int32,System.String,System.String,System.Nullable{System.Int32},System.String,System.String,System.String)">
+            <summary>
+            Patch for updating member by name, email, mobile number, address, city, pincode
+            </summary>
+        </member>
+        <member name="M:LMS2.Controllers.membersController.GetMemberBySearch(System.String,System.String,System.Nullable{System.Int32},System.String,System.String)">
+            <summary>
+            Search member by Name, Email, MobileNumber, City and Pincode
+            </summary>
+        </member>
+        <member name="T:LMS2.Migrations.InitialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.InitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.InitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:LMS2.Migrations.AddedMemeber">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.AddedMemeber.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.AddedMemeber.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.AddedMemeber.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:LMS2.Migrations.changeingNullableValues">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.changeingNullableValues.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.changeingNullableValues.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.changeingNullableValues.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:LMS2.Migrations.AddedBorrowRecord">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.AddedBorrowRecord.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.AddedBorrowRecord.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.AddedBorrowRecord.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="P:LMS2.Models.Book.Id">
+            <summary>
+            Primary key with auto increment
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Book.Title">
+            <summary>
+            Title is required and has limit upto 300
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Book.Description">
+            <summary>
+            Description is Required 
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Book.Author_Name">
+            <summary>
+            Author name is required and has limit upto 300
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Book.Genre">
+            <summary>
+            Genre is required and has limit upto 300
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Book.Publiser_Name">
+            <summary>
+            Publisher Name is required and has limit upto 300
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Book.Publiser_Description">
+            <summary>
+            Publisher Desc is required
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Book.Price">
+            <summary>
+            Price is required and cannot be negative
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Book.Current_Stock">
+            <summary>
+            current Stock is required and cannot be negative
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Book.CreatedAt">
+            <summary>
+            Created Date is auto set as current dateTime
+            </summary>
+        </member>
+        <member name="T:LMS2.Models.BorrowRecord">
+            <summary>
+            BorrowRecord Model
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.BorrowRecord.Id">
+            <summary>
+            Primary key with auto increment
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.BorrowRecord.BookId">
+            <summary>
+            Book Id is required and FK with Book
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.BorrowRecord.MemberId">
+            <summary>
+            Member Id is required and FK with Member
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.BorrowRecord.BorrowDate">
+            <summary>
+            BorrowDate is Required
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.BorrowRecord.DueDate">
+            <summary>
+            DueDate is Required
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.BorrowRecord.ReturnDate">
+            <summary>
+            ReturnDate is Not Required
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.BorrowRecord.Book">
+            <summary>
+            store the data of Book and not required field
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.BorrowRecord.Member">
+            <summary>
+            store the data of Book and not required field
+            </summary>
+        </member>
+        <member name="T:LMS2.Models.Member">
+            <summary>
+            Member model
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Member.Id">
+            <summary>
+            Primary key with auto increment
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Member.Name">
+            <summary>
+            Name is required and has limit upto 300
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Member.Email">
+            <summary>
+            Email is required and has limit upto 100 and regx to validate
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Member.MobileNumber">
+            <summary>
+            MobileNumber is required and has regx to validate
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Member.Address">
+            <summary>
+            Address is not required
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Member.City">
+            <summary>
+            City is not required
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Member.Pincode">
+            <summary>
+            Pincode is required and has regx to validate
+            </summary>
+        </member>
+        <member name="P:LMS2.Models.Member.CreatedAt">
+            <summary>
+            Created Date is auto set as current dateTime
+            </summary>
+        </member>
+    </members>
+</doc>
