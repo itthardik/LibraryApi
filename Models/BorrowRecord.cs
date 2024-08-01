@@ -40,13 +40,25 @@ namespace LMS2.Models
         /// </summary>
         public DateTime? ReturnDate { get; set; }
         /// <summary>
-        /// store the data of Book and not required field
+        /// is Deleted mark
         /// </summary>
-        public Book Book { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        /// <summary>
+        /// Penalty Amount by default 0
+        /// </summary>
+        public int PenaltyAmount { get; set; } = 0;
+        /// <summary>
+        /// Created Date is auto set as current dateTime
+        /// </summary>
+        public DateTime CreatedAt { get; private set; } = DateTime.Now;
         /// <summary>
         /// store the data of Book and not required field
         /// </summary>
-        public Member Member { get; set; }
+        public Book? Book { get; set; }
+        /// <summary>
+        /// store the data of Book and not required field
+        /// </summary>
+        public Member? Member { get; set; }
 
     }
 }

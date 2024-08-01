@@ -2,12 +2,27 @@
 
 namespace LMS2.DataContext
 {
-    public class ApiContext : DbContext
+    /// <summary>
+    /// Api Context Class
+    /// </summary>
+    /// <remarks>
+    /// Api Context Constructor
+    /// </remarks>
+    /// <param name="options"></param>
+    public class ApiContext(DbContextOptions<ApiContext> options) : DbContext(options)
     {
-        public ApiContext(DbContextOptions<ApiContext> options) : base(options) { }
 
-        public DbSet<LMS2.Models.Book> books { get; set; }
-        public DbSet<LMS2.Models.Member> members { get; set; }
-        public DbSet<LMS2.Models.BorrowRecord> borrowRecords { get; set; }
+        /// <summary>
+        /// Book DBset
+        /// </summary>
+        public DbSet<LMS2.Models.Book> Books { get; set; }
+        /// <summary>
+        /// Member DBset
+        /// </summary>
+        public DbSet<LMS2.Models.Member> Members { get; set; }
+        /// <summary>
+        /// Borrow Record DBset
+        /// </summary>
+        public DbSet<LMS2.Models.BorrowRecord> BorrowRecords { get; set; }
     }
 }

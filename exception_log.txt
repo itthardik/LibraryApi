@@ -1,0 +1,825 @@
+------------------------------------------------
+Date: 7/30/2024 3:56:00 PM
+Message: No book found with this Id
+StackTrace:    at LMS2.Repository.BooksRepository.GetBookById(Int32 id) in C:\Users\hardik.sharma\source\repos\LMS2\Repository\BooksRepository.cs:line 63
+   at LMS2.Controllers.BooksController.GetByID(Int32 id) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BooksController.cs:line 60
+------------------------------------------------
+------------------------------------------------
+Date: 7/30/2024 4:08:04 PM
+Message: Required atleast one filed to find / search
+StackTrace:    at LMS2.Utility.ValidationUtility.ObjectIsNullOrEmpty(Object obj)
+   at LMS2.Controllers.MembersController.AddMember(InputMember member)
+------------------------------------------------
+------------------------------------------------
+Date: 7/30/2024 4:40:09 PM
+Message: No Books found
+StackTrace:    at LMS2.Repository.BooksRepository.GetAllBooks(Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Repository\BooksRepository.cs:line 47
+   at LMS2.Controllers.BooksController.Get(Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BooksController.cs:line 42
+------------------------------------------------
+------------------------------------------------
+Date: 7/30/2024 9:04:07 PM
+Message: Required atleast one field
+StackTrace:    at LMS2.Utility.ValidationUtility.ObjectIsNullOrEmpty(Object obj) in C:\Users\hardik.sharma\source\repos\LMS2\Utility\ValidationUtility.cs:line 105
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BooksController.cs:line 152
+------------------------------------------------
+------------------------------------------------
+Date: 7/30/2024 9:04:15 PM
+Message: The LINQ expression 'DbSet<Book>()
+    .Where(b => b.IsDeleted == False)
+    .Where(book => True && book.Title != null && book.Title.Contains(__newBook_Title_0) || False || False || False)
+    .Order()' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+StackTrace:    at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.VisitMethodCall(MethodCallExpression methodCallExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.VisitMethodCall(MethodCallExpression methodCallExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.VisitMethodCall(MethodCallExpression methodCallExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.Expand(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryTranslationPreprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass9_0`1.<Execute>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetEnumerator()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook) in C:\Users\hardik.sharma\source\repos\LMS2\Repository\BooksRepository.cs:line 135
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BooksController.cs:line 154
+------------------------------------------------
+------------------------------------------------
+Date: 7/30/2024 9:09:57 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 11:30:48 AM
+Message: Required atleast one field
+StackTrace:    at LMS2.Utility.ValidationUtility.ObjectIsNullOrEmpty(Object obj) in C:\Users\hardik.sharma\source\repos\LMS2\Utility\ValidationUtility.cs:line 105
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BooksController.cs:line 152
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 11:59:31 AM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 12:00:53 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 12:10:54 PM
+Message: No mapping exists from object type System.Reflection.PropertyInfo[] to a known managed provider native type.
+StackTrace:    at Microsoft.Data.SqlClient.MetaType.GetMetaTypeFromValue(Type dataType, Object value, Boolean inferLen, Boolean streamAllowed)
+   at Microsoft.Data.SqlClient.SqlParameter.get_DbType()
+   at System.Linq.Enumerable.SelectEnumerableIterator`2.MoveNext()
+   at System.String.JoinCore[T](ReadOnlySpan`1 separator, IEnumerable`1 values)
+   at System.String.Join[T](String separator, IEnumerable`1 values)
+   at Microsoft.EntityFrameworkCore.Utilities.EnumerableExtensions.Join(IEnumerable`1 source, String separator)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.DbParameterCollectionExtensions.FormatParameters(DbParameterCollection parameters, Boolean logParameterValues)
+   at Microsoft.EntityFrameworkCore.Diagnostics.Internal.RelationalCommandDiagnosticsLogger.LogCommandError(DbCommand command, TimeSpan duration, EventDefinition`6 definition)
+   at Microsoft.EntityFrameworkCore.Diagnostics.Internal.RelationalCommandDiagnosticsLogger.CommandError(IRelationalConnection connection, DbCommand command, DbContext context, DbCommandMethod executeMethod, Guid commandId, Guid connectionId, Exception exception, DateTimeOffset startTime, TimeSpan duration, CommandSource commandSource)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 12:11:46 PM
+Message: No mapping exists from object type System.Reflection.PropertyInfo[] to a known managed provider native type.
+StackTrace:    at Microsoft.Data.SqlClient.MetaType.GetMetaTypeFromValue(Type dataType, Object value, Boolean inferLen, Boolean streamAllowed)
+   at Microsoft.Data.SqlClient.SqlParameter.get_DbType()
+   at System.Linq.Enumerable.SelectEnumerableIterator`2.MoveNext()
+   at System.String.JoinCore[T](ReadOnlySpan`1 separator, IEnumerable`1 values)
+   at System.String.Join[T](String separator, IEnumerable`1 values)
+   at Microsoft.EntityFrameworkCore.Utilities.EnumerableExtensions.Join(IEnumerable`1 source, String separator)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.DbParameterCollectionExtensions.FormatParameters(DbParameterCollection parameters, Boolean logParameterValues)
+   at Microsoft.EntityFrameworkCore.Diagnostics.Internal.RelationalCommandDiagnosticsLogger.LogCommandError(DbCommand command, TimeSpan duration, EventDefinition`6 definition)
+   at Microsoft.EntityFrameworkCore.Diagnostics.Internal.RelationalCommandDiagnosticsLogger.CommandError(IRelationalConnection connection, DbCommand command, DbContext context, DbCommandMethod executeMethod, Guid commandId, Guid connectionId, Exception exception, DateTimeOffset startTime, TimeSpan duration, CommandSource commandSource)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 12:12:15 PM
+Message: No mapping exists from object type System.Reflection.PropertyInfo[] to a known managed provider native type.
+StackTrace:    at Microsoft.Data.SqlClient.MetaType.GetMetaTypeFromValue(Type dataType, Object value, Boolean inferLen, Boolean streamAllowed)
+   at Microsoft.Data.SqlClient.SqlParameter.get_DbType()
+   at System.Linq.Enumerable.SelectEnumerableIterator`2.MoveNext()
+   at System.String.JoinCore[T](ReadOnlySpan`1 separator, IEnumerable`1 values)
+   at System.String.Join[T](String separator, IEnumerable`1 values)
+   at Microsoft.EntityFrameworkCore.Utilities.EnumerableExtensions.Join(IEnumerable`1 source, String separator)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.DbParameterCollectionExtensions.FormatParameters(DbParameterCollection parameters, Boolean logParameterValues)
+   at Microsoft.EntityFrameworkCore.Diagnostics.Internal.RelationalCommandDiagnosticsLogger.LogCommandError(DbCommand command, TimeSpan duration, EventDefinition`6 definition)
+   at Microsoft.EntityFrameworkCore.Diagnostics.Internal.RelationalCommandDiagnosticsLogger.CommandError(IRelationalConnection connection, DbCommand command, DbContext context, DbCommandMethod executeMethod, Guid commandId, Guid connectionId, Exception exception, DateTimeOffset startTime, TimeSpan duration, CommandSource commandSource)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 12:12:33 PM
+Message: No Books FoundSystem.String Title
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 12:14:04 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 12:15:19 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 12:15:48 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook) in C:\Users\hardik.sharma\source\repos\LMS2\Repository\BooksRepository.cs:line 146
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BooksController.cs:line 154
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 12:17:11 PM
+Message: No Books FoundSystem.String Title
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 1:32:19 PM
+Message: No Books Foundabc
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 1:49:34 PM
+Message: No Books FoundMicrosoft.AspNetCore.Mvc.JsonResult
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 1:50:34 PM
+Message: No Books FoundLMS2.Models.ViewModels.InputBook
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 1:50:38 PM
+Message: No Books FoundLMS2.Models.ViewModels.InputBook
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 1:59:12 PM
+Message: Procedure or function 'SearchTableByParams' expects parameter '@pageSize', which was not supplied.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:00:14 PM
+Message: No Books FoundLMS2.Models.ViewModels.InputBook
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:00:48 PM
+Message: Required atleast one field
+StackTrace:    at LMS2.Utility.ValidationUtility.ObjectIsNullOrEmpty(Object obj)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:01:14 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:01:54 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:01:58 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:01:59 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:01:59 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:01:59 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:04:12 PM
+Message: Incorrect syntax near 'Description'.
+Invalid usage of the option next in the FETCH statement.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:04:24 PM
+Message: Incorrect syntax near '&'.
+Invalid usage of the option next in the FETCH statement.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:26:53 PM
+Message: Invalid object name 'Book'.
+Incorrect syntax near the keyword 'AND'.
+Invalid usage of the option next in the FETCH statement.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook) in C:\Users\hardik.sharma\source\repos\LMS2\Repository\BooksRepository.cs:line 142
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BooksController.cs:line 154
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:27:57 PM
+Message: Invalid object name 'Book'.
+Incorrect syntax near the keyword 'AND'.
+Invalid usage of the option next in the FETCH statement.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:29:26 PM
+Message: Invalid object name 'Book'.
+An expression of non-boolean type specified in a context where a condition is expected, near 'Title'.
+Invalid usage of the option next in the FETCH statement.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:29:59 PM
+Message: Invalid object name 'Book'.
+Invalid object name 'BookView'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:34:16 PM
+Message: Invalid object name 'Book'.
+Invalid object name 'BookView'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:34:24 PM
+Message: Invalid object name 'Book'.
+Invalid object name 'BookView'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:35:48 PM
+Message: Invalid object name 'Book'.
+Invalid object name 'BookView'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:37:49 PM
+Message: Invalid object name 'Book'.
+Invalid object name 'BookView'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:37:59 PM
+Message: Invalid object name 'Book'.
+Invalid object name 'BookView'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 2:43:01 PM
+Message: Arithmetic overflow error converting expression to data type int.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook)
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:03:44 PM
+Message: Required atleast one field
+StackTrace:    at LMS2.Utility.ValidationUtility.ObjectIsNullOrEmpty(Object obj) in C:\Users\hardik.sharma\source\repos\LMS2\Utility\ValidationUtility.cs:line 105
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BooksController.cs:line 152
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:04:16 PM
+Message: No Books Found
+StackTrace:    at LMS2.Repository.BooksRepository.GetBooksBySearchParams(Int32 pageNumber, Int32 pageSize, InputBook newBook) in C:\Users\hardik.sharma\source\repos\LMS2\Repository\BooksRepository.cs:line 140
+   at LMS2.Controllers.BooksController.GetBookBySearch(InputBook inputBook, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BooksController.cs:line 156
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:05:08 PM
+Message: Required atleast one field
+StackTrace:    at LMS2.Utility.ValidationUtility.ObjectIsNullOrEmpty(Object obj) in C:\Users\hardik.sharma\source\repos\LMS2\Utility\ValidationUtility.cs:line 105
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BorrowRecordsController.cs:line 157
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:05:27 PM
+Message: Invalid column name 'BookName'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord) in C:\Users\hardik.sharma\source\repos\LMS2\Repository\BorrowRecordsRepository.cs:line 189
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BorrowRecordsController.cs:line 161
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:10:39 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord) in C:\Users\hardik.sharma\source\repos\LMS2\Repository\BorrowRecordsRepository.cs:line 192
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BorrowRecordsController.cs:line 161
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:11:07 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord) in C:\Users\hardik.sharma\source\repos\LMS2\Repository\BorrowRecordsRepository.cs:line 192
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize) in C:\Users\hardik.sharma\source\repos\LMS2\Controllers\BorrowRecordsController.cs:line 161
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:13:16 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:13:46 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:13:48 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:13:49 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:13:49 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:13:57 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:13:57 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:13:57 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:13:57 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:16:44 PM
+Message: There is already an open DataReader associated with this Connection which must be closed first.
+StackTrace:    at Microsoft.Data.SqlClient.SqlInternalConnectionTds.ValidateConnectionForExecute(SqlCommand command)
+   at Microsoft.Data.SqlClient.SqlConnection.ValidateConnectionForExecute(String method, SqlCommand command)
+   at Microsoft.Data.SqlClient.SqlCommand.ValidateCommand(Boolean isAsync, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:19:48 PM
+Message: There is already an open DataReader associated with this Connection which must be closed first.
+StackTrace:    at Microsoft.Data.SqlClient.SqlInternalConnectionTds.ValidateConnectionForExecute(SqlCommand command)
+   at Microsoft.Data.SqlClient.SqlConnection.ValidateConnectionForExecute(String method, SqlCommand command)
+   at Microsoft.Data.SqlClient.SqlCommand.ValidateCommand(Boolean isAsync, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:22:56 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:24:17 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:25:49 PM
+Message: No Borrow Record Found
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetBorrowRecordsBySearchParams(Int32 pageNumber, Int32 pageSize, SearchBorrowRecords searchBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.GetBorrowRecordBySearch(SearchBorrowRecords searchBorrow, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:29:33 PM
+Message: The required column 'AuthorName' was not present in the results of a 'FromSql' operation.
+StackTrace:    at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.MembersRepository.GetMembersBySearchParams(Int32 pageNumber, Int32 pageSize, InputMember newMember)
+   at LMS2.Controllers.MembersController.GetMemberBySearch(InputMember inputMember, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 3:29:55 PM
+Message: The required column 'AuthorName' was not present in the results of a 'FromSql' operation.
+StackTrace:    at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.<Any>g__WithEnumerator|36_0[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source)
+   at Microsoft.IdentityModel.Tokens.CollectionUtilities.IsNullOrEmpty[T](IEnumerable`1 enumerable)
+   at LMS2.Repository.MembersRepository.GetMembersBySearchParams(Int32 pageNumber, Int32 pageSize, InputMember newMember)
+   at LMS2.Controllers.MembersController.GetMemberBySearch(InputMember inputMember, Int32 pageNumber, Int32 pageSize)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 8:45:34 PM
+Message: Borrow Record with this same BookID & MemberID exist
+StackTrace:    at LMS2.Utility.ValidationUtility.IsBorrowRecordAlreadyExist(IQueryable`1 allBorrowRecords, InputBorrowRecord inputBorrowRecord)
+   at LMS2.Repository.BorrowRecordsRepository.AddBorrowRecord(InputBorrowRecord inputBorrowRecord)
+   at LMS2.Controllers.BorrowRecordsController.AddBorrowRecord(InputBorrowRecord inputBorrowRecord)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 9:07:13 PM
+Message: Required atleast one field
+StackTrace:    at LMS2.Utility.ValidationUtility.ObjectIsNullOrEmpty(Object obj)
+   at LMS2.Controllers.BorrowRecordsController.PatchMember(Int32 id, InputBorrowRecord borrowRecord)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 9:08:28 PM
+Message: Required atleast one field
+StackTrace:    at LMS2.Utility.ValidationUtility.ObjectIsNullOrEmpty(Object obj)
+   at LMS2.Controllers.BorrowRecordsController.PatchMember(Int32 id, InputBorrowRecord borrowRecord)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 9:11:29 PM
+Message: Required atleast one field
+StackTrace:    at LMS2.Utility.ValidationUtility.ObjectIsNullOrEmpty(Object obj)
+   at LMS2.Controllers.BorrowRecordsController.PatchMember(Int32 id, InputBorrowRecord borrowRecord)
+------------------------------------------------
+------------------------------------------------
+Date: 7/31/2024 9:39:38 PM
+Message: No member found with this Id
+StackTrace:    at LMS2.Repository.BorrowRecordsRepository.GetOverallPenaltyByMemberId(Int32 memberId)
+   at LMS2.Controllers.BorrowRecordsController.GetOverAllPenalty(Int32 id)
+------------------------------------------------

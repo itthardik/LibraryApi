@@ -21,10 +21,10 @@ namespace LMS2.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Author_Name = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Genre = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    Publiser_Name = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    Publiser_Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PubliserName = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    PubliserDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    Current_Stock = table.Column<int>(type: "int", nullable: false),
+                    CurrentStock = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

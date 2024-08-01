@@ -1,18 +1,40 @@
 ﻿using LMS2.Models;
+using LMS2.Models.ViewModels;
 
 namespace LMS2.Repository
 {
+    /// <summary>
+    /// Interface of Book Repo
+    /// </summary>
     public interface IBooksRepository
     {
-        IEnumerable<Book> GetAllBooks();
+        /// <summary>
+        /// Get all book data
+        /// </summary>
+        IQueryable<Book> GetAllBooks();
+        /// <summary>
+        /// Get book data by ID
+        /// </summary>
         Book GetBookById(int id);
-        void AddBook(Book book); 
-        //TODO
-        Book UpdateBook(int id, Book book);
-
-        Book UpdateBookByQuery(int id, string? title, string? description, string? genre, string? author, string? pub_name, string? pub_des, int? price, int? stock);
-        void DeleteBook(Book book);
-        IEnumerable<Book> GetBooksBySearchParams(string? title, string? genre, string? authorName, string? publicationName);
+        /// <summary>
+        /// Add new Book 
+        /// </summary>
+        void AddBook(InputBook? book); 
+        /// <summary>
+        /// Update Book by ID
+        /// </summary>
+        Book UpdateBook(int id, InputBook book);
+        /// <summary>
+        /// Delete Book Data
+        /// </summary>
+        void DeleteBook(int id);
+        /// <summary>
+        /// Search Book data
+        /// </summary>
+        IQueryable<Book> GetBooksBySearchParams(int pageNumber, int pageSize, InputBook book);
+        /// <summary>
+        /// Save Book data in DB
+        /// </summary>
         void Save();
     }
 }

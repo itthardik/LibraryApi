@@ -1,216 +1,229 @@
 ﻿using LMS2.DataContext;
 using LMS2.Models;
+using LMS2.Models.ViewModels;
+using LMS2.Utility;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System.Net;
-using System.Reflection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LMS2.Repository
 {
+    
+    
+    /// <summary>
+    /// Borrow Record Repo
+    /// </summary>
     public class BorrowRecordsRepository : IBorrowRecordsRepository
     {
         private readonly ApiContext _context;
-        public BorrowRecordsRepository(ApiContext context)
+        
+        
+        
+        /// <summary>
+        /// Borrow Record Constructor
+        /// </summary>
+        /// <param name="context"></param>
+        public BorrowRecordsRepository(ApiContext? context)
         {
-            _context = context;
+            if (context != null)
+                _context = context;
+            else
+                throw new ArgumentNullException(nameof(context));
         }
+        
+        
+        
+        /// <summary>
+        /// Get all Borrow Records
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<BorrowRecord> GetAllBorrowRecords()
+        {
+            var allBooks = _context.BorrowRecords
+                                    .Where<BorrowRecord>(b => b.IsDeleted == false)
+                                    .Include(br => br.Member)
+                                    .Include(br => br.Book);
+            if (!allBooks.Any())
+                throw new Exception("No Books found");
 
-        public IEnumerable<BorrowRecord> GetAllBorrowRecords()
-        {
-            return _context.borrowRecords
-                    .Include(br => br.Member)
-                    .Include(br => br.Book)
-                    .ToList();
+            return allBooks;
         }
-        public BorrowRecord? GetBorrowRecordById(int id)
+        
+        
+        
+   /// <summary>
+        /// Get Borrow Record By ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public BorrowRecord GetBorrowRecordById(int id)
         {
-            return _context.borrowRecords
+            var books = _context.BorrowRecords
+                            .Where(br => br.Id == id)
+                            .Where<BorrowRecord>(b => b.IsDeleted == false)
                             .Include(br => br.Member)
                             .Include(br => br.Book)
-                            .ToList()
-                            .Find(br => br.Id == id);
+                            .ToList();
+            if (books.IsNullOrEmpty())
+                throw new Exception("No Borrow Record found with this Id");
+
+            return books[0];
         }
-        public void AddBorrowRecord(InputBorrowRecord inputBorrowRecord)
+        
+        
+        
+        /// <summary>
+        /// Add new Borrow Record
+        /// </summary>
+        /// <param name="inputBorrowRecord"></param>
+        /// <exception cref="Exception"></exception>
+        public void AddBorrowRecord(InputBorrowRecord? inputBorrowRecord)
         {
-            BorrowRecord borrowRecord = new BorrowRecord();
-            borrowRecord.BookId = inputBorrowRecord.BookId;
-            borrowRecord.MemberId = inputBorrowRecord.MemberId;
-            if (inputBorrowRecord.BorrowDate > inputBorrowRecord.DueDate || inputBorrowRecord.BorrowDate > inputBorrowRecord.ReturnDate) {
-                throw new Exception(message:"Borrow date can not be after Due or Return Dates");
-            }
-            borrowRecord.BorrowDate = inputBorrowRecord.BorrowDate;
-            borrowRecord.DueDate = inputBorrowRecord.DueDate;
-            borrowRecord.ReturnDate = inputBorrowRecord.ReturnDate;
 
-            var book = _context.books.Find(inputBorrowRecord.BookId);
-            if (book == null)
-            {
-                throw new Exception(message: "No Book with this Book Id");
-            }
-            borrowRecord.Book = book;
+            if (inputBorrowRecord == null)
+                throw new Exception("Invalid Format");
 
-            var member = _context.members.Find(inputBorrowRecord.MemberId);
-            if (member == null)
-            {
-                throw new Exception(message: "No Member with this Member Id");
-            }
-            borrowRecord.Member = member;
-            if (book.Current_Stock <= 0)
+            ValidationUtility.IsBorrowRecordAlreadyExist(GetAllBorrowRecords(), inputBorrowRecord);
+
+            ValidationUtility.CheckValidBorrowDate(inputBorrowRecord);
+
+            var book = CustomUtility.GetBookDataFromIdByContext(_context, inputBorrowRecord.BookId);
+
+            var member = CustomUtility.GetMemberDataFromIdByContext(_context, inputBorrowRecord.MemberId);
+
+            if (book.CurrentStock <= 0)
                 throw new Exception(message: "No Stock of Specified Book");
             else
-                book.Current_Stock--;
-            
-            _context.borrowRecords.Add(borrowRecord);
-            return;
+                book.CurrentStock--;
+
+
+            BorrowRecord newBorrowRecord = CustomUtility.ConvertInputBorrowRecordToBorrowRecord(inputBorrowRecord, book, member);
+
+            _context.BorrowRecords.Add(newBorrowRecord);
         }
-        public void DeleteBorrowRecord(BorrowRecord borrowRecord)
+        
+        
+        
+        /// <summary>
+        /// Delete Borrow Record By ID
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteBorrowRecord(int id)
         {
-            var book = _context.books.Find(borrowRecord.BookId);
-            _context.borrowRecords.Remove(borrowRecord);
-            book.Current_Stock++;
+            var foundBorrowRecord = GetBorrowRecordById(id);
+            foundBorrowRecord.IsDeleted = true;
+
+            var book = _context.Books.Where( i => i.Id == foundBorrowRecord.BookId).ToList()[0];
+            book.CurrentStock++;
                 
         }
+        
+        
+        
+        /// <summary>
+        /// Update BorrowRecord with ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="inputBorrowRecord"></param>
+        /// <returns></returns>
+        //Todo not working for no books and members
         public BorrowRecord UpdateBorrowRecord(int id,InputBorrowRecord inputBorrowRecord)
         {
-            try
+            if (id == 0)
+                throw new Exception("Id cannot be Zero");
+    
+            if (inputBorrowRecord == null)
+                throw new Exception("Invalid Format");
+
+            var foundBorrowRecord = GetBorrowRecordById(id);
+
+
+            if ( inputBorrowRecord.BookId != null && foundBorrowRecord.BookId != inputBorrowRecord.BookId)
             {
-                var foundBorrowRecord = _context.borrowRecords
-                                        .Include(br => br.Member)
-                                        .Include(br => br.Book)
-                                        .ToList().Find(b => b.Id == id);
-                if (foundBorrowRecord != null)
-                {
-                    if(foundBorrowRecord.BookId != inputBorrowRecord.BookId)
-                    {
-                        var prevBook = _context.books.Find(foundBorrowRecord.BookId);
-                        var newBook = _context.books.Find(inputBorrowRecord.BookId);
-                        if (newBook == null) {
-                            throw new Exception(message: "No Book with this Book Id");
-                        }
-                        if (newBook.Current_Stock <=0) {
-                            throw new Exception(message: "No stock of specified Book");
-                        }
-                        foundBorrowRecord.Book = newBook;
-                        prevBook.Current_Stock++;
-                        newBook.Current_Stock--;
-                    }
-                    if (foundBorrowRecord.MemberId != inputBorrowRecord.MemberId)
-                    {
-                        var member = _context.members.Find(inputBorrowRecord.MemberId);
-                        if (member == null)
-                        {
-                            throw new Exception(message: "No Member with this Member Id");
-                        }
-                        foundBorrowRecord.Member = member;
-                    }
 
-                    foundBorrowRecord.BookId = inputBorrowRecord.BookId;
-                    foundBorrowRecord.MemberId = inputBorrowRecord.MemberId;
+                var newBook = CustomUtility.GetBookDataFromIdByContext(_context, inputBorrowRecord.BookId);
 
-                    if (inputBorrowRecord.BorrowDate > inputBorrowRecord.DueDate || inputBorrowRecord.BorrowDate > inputBorrowRecord.ReturnDate)
-                    {
-                        throw new Exception(message: "Borrow date can not be after Due or Return Dates");
-                    }
+                var prevBook = CustomUtility.GetBookDataFromIdByContext(_context, foundBorrowRecord.BookId);
 
-                    foundBorrowRecord.BorrowDate = inputBorrowRecord.BorrowDate;
-                    foundBorrowRecord.DueDate = inputBorrowRecord.DueDate;
-                    foundBorrowRecord.ReturnDate = inputBorrowRecord.ReturnDate;
 
-                    return foundBorrowRecord;
-                }
+                if (newBook.CurrentStock <= 0)
+                    throw new Exception(message: "No stock of specified Book");
+
+                prevBook.CurrentStock++;
+                newBook.CurrentStock--;
+
+                foundBorrowRecord.Book = newBook;
+                foundBorrowRecord.BookId = inputBorrowRecord.BookId ?? foundBorrowRecord.BookId ;
             }
-            catch (Exception ex)
+
+            if (inputBorrowRecord.MemberId != null && foundBorrowRecord.MemberId != inputBorrowRecord.MemberId)
             {
-                Console.WriteLine(ex.Message);
+                var member = CustomUtility.GetMemberDataFromIdByContext(_context, inputBorrowRecord.MemberId);
+
+                foundBorrowRecord.Member = member;
+                foundBorrowRecord.MemberId = inputBorrowRecord.MemberId ?? foundBorrowRecord.MemberId;
             }
-            return null;
+
+            ValidationUtility.CheckValidBorrowDate(inputBorrowRecord, foundBorrowRecord);
+
+            foundBorrowRecord.BorrowDate = inputBorrowRecord.BorrowDate ?? foundBorrowRecord.BorrowDate;
+            foundBorrowRecord.DueDate = inputBorrowRecord.DueDate ?? foundBorrowRecord.DueDate;
+            foundBorrowRecord.ReturnDate = inputBorrowRecord.ReturnDate ?? foundBorrowRecord.ReturnDate;
+
+            foundBorrowRecord.PenaltyAmount = CustomUtility.CalculatePenaltyAmount(foundBorrowRecord.DueDate, foundBorrowRecord.ReturnDate??DateTime.MinValue);
+
+            return foundBorrowRecord;
+            
         }
-
-        public BorrowRecord UpdateBorrowRecordsByQuery(int id, int? bookId, int? memberId, DateTime? borrowDate, DateTime? dueDate, DateTime? returnDate)
+        
+        
+        /// <summary>
+        /// Search Borrow Record by Params
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchBorrowRecord"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public IQueryable<BorrowRecord> GetBorrowRecordsBySearchParams(int pageNumber, int pageSize, SearchBorrowRecords searchBorrowRecord)
         {
-            try
-            {
-                var foundBorrowRecord = _context.borrowRecords
-                                        .Include(br => br.Member)
-                                        .Include(br => br.Book)
-                                        .ToList().Find(b => b.Id == id);
-                if (foundBorrowRecord != null)
-                {
-                    if (bookId != null && foundBorrowRecord.BookId != bookId)
-                    {
-                        var prevBook = _context.books.Find(foundBorrowRecord.BookId);
-                        var newBook = _context.books.Find(bookId);
-                        if (newBook == null)
-                        {
-                            throw new Exception(message: "No Book with this Book Id");
-                        }
-                        if (newBook.Current_Stock <= 0)
-                        {
-                            throw new Exception(message: "No stock of specified Book");
-                        }
-                        foundBorrowRecord.Book = newBook;
-                        prevBook.Current_Stock++;
-                        newBook.Current_Stock--;
-                    }
-                    if (memberId != null && foundBorrowRecord.MemberId != memberId)
-                    {
-                        var member = _context.members.Find(memberId);
-                        if (member == null)
-                        {
-                            throw new Exception(message: "No Member with this Member Id");
-                        }
-                        foundBorrowRecord.Member = member;
-                    }
-                    
-                    foundBorrowRecord.BookId = bookId?? foundBorrowRecord.BookId;
+            var result = CustomUtility.FilterBorrowRecordsBySearchParams(GetAllBorrowRecords(), searchBorrowRecord)
+                            .Skip<BorrowRecord>((pageNumber - 1) * pageSize)
+                            .Take<BorrowRecord>(pageSize);
 
-                    foundBorrowRecord.MemberId = memberId?? foundBorrowRecord.MemberId;
+            if (result.IsNullOrEmpty())
+                throw new Exception("No Borrow Record Found");
 
-                    if ((borrowDate??foundBorrowRecord.BorrowDate) > (dueDate?? foundBorrowRecord.DueDate) || (borrowDate?? foundBorrowRecord.BorrowDate) > (returnDate?? foundBorrowRecord.ReturnDate))
-                    {
-                        throw new Exception(message: "Borrow date can not be after Due or Return Dates");
-                    }
-
-                    foundBorrowRecord.BorrowDate = borrowDate?? foundBorrowRecord.BorrowDate;
-                    foundBorrowRecord.DueDate = dueDate?? foundBorrowRecord.DueDate;
-                    foundBorrowRecord.ReturnDate = returnDate?? foundBorrowRecord.ReturnDate;
-
-                    return foundBorrowRecord;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return null;
-        }
-
-        public IEnumerable<BorrowRecord> GetBorrowRecordsBySearchParams(int? bookId, int? memberId, DateTime? borrowDate, DateTime? dueDate, DateTime? returnDate,
-                                                                        string? bookName, string? author, string? genre, string? publisherName, 
-                                                                        string? memberName, string? email, int? mobileNumber, string? city, string? pincode )
-        {
-            var allBorrowRecords = _context.borrowRecords
-                                    .Include(br => br.Member)
-                                    .Include(br => br.Book)
-                                    .ToList();
-            var result = allBorrowRecords.FindAll(a =>
-                            (bookId != null && a.BookId == bookId) ||
-                            (memberId != null && a.MemberId == memberId) ||
-                            (borrowDate != null && a.BorrowDate == borrowDate) ||
-                            (dueDate != null && a.DueDate == dueDate) ||
-                            (returnDate != null && a.ReturnDate == returnDate) ||
-                            (bookName != null && a.Book.Title.Contains(bookName)) ||
-                            (author != null && a.Book.Author_Name.Contains(author)) ||
-                            (genre != null && a.Book.Genre.Contains(genre)) ||
-                            (publisherName != null && a.Book.Publiser_Name.Contains(publisherName)) ||
-                            (memberName != null && a.Member.Name.Contains(memberName)) ||
-                            (email != null && a.Member.Email.Contains(email)) ||
-                            (mobileNumber != null && a.Member.MobileNumber.ToString().Contains(mobileNumber.ToString())) ||
-                            (city != null && a.Member.City.Contains(city)) ||
-                            (pincode != null && a.Member.Pincode.Contains(pincode))
-                        );
             return result;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public int GetOverallPenaltyByMemberId(int memberId)
+        {
+            var allBorrowRecordsByMemberId = GetAllBorrowRecords()
+                                    .Where(b => b.MemberId == memberId)
+                                    .ToList();
+
+            if (allBorrowRecordsByMemberId.IsNullOrEmpty())
+                throw new Exception("No member found with this Id");
+
+            var sum = 0;
+            foreach(var  b in allBorrowRecordsByMemberId)
+            {
+                sum += b.PenaltyAmount;
+            }
+
+            return sum;
+        }
+
+
+
+        /// <summary>
+        /// Save Changes in DB
+        /// </summary>
         public void Save()
         {
             _context.SaveChanges();

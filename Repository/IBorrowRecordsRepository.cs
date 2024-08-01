@@ -1,18 +1,58 @@
 ﻿using LMS2.Models;
+using LMS2.Models.ViewModels;
 
 namespace LMS2.Repository
 {
+    /// <summary>
+    /// interface of Borrow Record Repo
+    /// </summary>
     public interface IBorrowRecordsRepository
     {
-        IEnumerable<BorrowRecord> GetAllBorrowRecords();
+        /// <summary>
+        /// Get all Borrow Records
+        /// </summary>
+        /// <returns></returns>
+        IQueryable<BorrowRecord> GetAllBorrowRecords();
+        /// <summary>
+        /// Get Borrow Record by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         BorrowRecord GetBorrowRecordById(int id);
-        void AddBorrowRecord(InputBorrowRecord book);
+        /// <summary>
+        /// Add new BorrowRecord
+        /// </summary>
+        /// <param name="borrowRecord"></param>
+        void AddBorrowRecord(InputBorrowRecord? borrowRecord);
+        /// <summary>
+        /// Update Borrow Record by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="inputBorrowRecord"></param>
+        /// <returns></returns>
         BorrowRecord UpdateBorrowRecord(int id, InputBorrowRecord inputBorrowRecord);
-        BorrowRecord UpdateBorrowRecordsByQuery(int id, int? bookId, int? memberId, DateTime? borrowDate, DateTime? dueDate, DateTime? returnDate);
-        void DeleteBorrowRecord(BorrowRecord borrowRecord);
-        IEnumerable<BorrowRecord> GetBorrowRecordsBySearchParams(int? bookId, int? memberId, DateTime? borrowDate, DateTime? dueDate, DateTime? returnDate,
-                                                                string? bookName, string? author, string? genre, string? publisherName,
-                                                                string? memberName, string? email, int? mobileNumber, string? city, string? pincode);
+        /// <summary>
+        /// Delete Borrow Record By ID
+        /// </summary>
+        /// <param name="id"></param>
+        void DeleteBorrowRecord(int id);
+        /// <summary>
+        /// Search borrow records over many fields
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchBorrowRecords"></param>
+        /// <returns></returns>
+        IQueryable<BorrowRecord> GetBorrowRecordsBySearchParams(int pageNumber, int pageSize, SearchBorrowRecords searchBorrowRecords);
+        /// <summary>
+        /// Get overall penalty amount by member id
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        public int GetOverallPenaltyByMemberId(int memberId);
+        /// <summary>
+        /// Save Changes to DB
+        /// </summary>
         void Save();
     }
 }

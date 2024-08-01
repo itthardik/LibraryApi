@@ -1,92 +1,151 @@
 ﻿using LMS2.DataContext;
 using LMS2.Models;
+using LMS2.Models.ViewModels;
+using LMS2.Utility;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace LMS2.Repository
 {
+    
+    
+    /// <summary>
+    /// Book Repo
+    /// </summary>
     public class BooksRepository : IBooksRepository
     {
         private readonly ApiContext _context;
-        public BooksRepository(ApiContext context) { 
-            _context = context;
+        
+        
+        /// <summary>
+        /// Book Repo Constructor
+        /// </summary>
+        /// <param name="context"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public BooksRepository(ApiContext? context) { 
+            if(context != null)
+                _context = context;
+            else
+                throw new ArgumentNullException(nameof(context));
         }
 
-        public IEnumerable<Book> GetAllBooks()
+
+
+        /// <summary>
+        /// Get All Books
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<Book> GetAllBooks()
         {
-            return _context.books.ToList();
+            var allBooks = _context.Books
+                                .Where<Book>(b => b.IsDeleted == false);
+                                
+            if (!allBooks.Any())
+                throw new Exception("No Books found");
+
+            return allBooks; 
         }
-        public Book? GetBookById(int id) {
-            return _context.books.Find(id);
+        
+        
+        /// <summary>
+        /// Get Book by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public Book GetBookById(int id) {
+            var books = GetAllBooks()
+                            .Where( b => b.Id == id)
+                            .ToList();
+
+            if (books.IsNullOrEmpty())
+                throw new Exception("No book found with this Id");
+
+            return books[0];
         }
-        public void AddBook(Book book) { 
-            _context.books.Add(book);
-            return;
+        
+        
+        /// <summary>
+        /// Add new Book
+        /// </summary>
+        /// <param name="inputBook"></param>
+        /// <exception cref="Exception"></exception>
+        public void AddBook(InputBook? inputBook) {
+            
+            if (inputBook == null)
+                throw new Exception("Invalid Format");
+
+            ValidationUtility.IsBookAlreadyExist( GetAllBooks(), inputBook);
+
+            Book newBook = CustomUtility.ConvertInputBookToBook(inputBook);
+
+            _context.Books.Add(newBook);
         }
-        public void DeleteBook(Book book)
+        
+        
+        /// <summary>
+        /// Delete Book By Id
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteBook(int id)
         {
-            _context.books.Remove(book);
-            return;
+            var foundBook = GetBookById(id);
+            foundBook.IsDeleted = true;
         }
-        public Book UpdateBook(int id, Book book) {
-            try
+        
+        
+        /// <summary>
+        /// Update book by id and InputBook
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="book"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public Book UpdateBook(int id, InputBook book)
+        {
+            if (id == 0)
+                throw new Exception("Id cannot be Zero");
+
+            if(book == null) 
+                throw new Exception("Invalid Format");
+
+            var foundBook = GetBookById(id);
+
+            CustomUtility.UpdateObject1WithObject2(foundBook, book);
+
+            return foundBook;            
+        }
+        
+        
+        /// <summary>
+        /// Get Filter data by search parms and with pagination
+        /// </summary>
+        /// <param name="newBook"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public IQueryable<Book> GetBooksBySearchParams( int pageNumber, int pageSize, InputBook newBook)
             {
-                var foundBook = _context.books.ToList().Find(b => b.Id == id);
-                if (foundBook != null)
-                {
-                    foundBook.Title = book.Title;
-                    foundBook.Description = book.Description;
-                    foundBook.Genre = book.Genre;
-                    foundBook.Author_Name = book.Author_Name;
-                    foundBook.Price= book.Price;
-                    foundBook.Current_Stock = book.Current_Stock;
-                    foundBook.Publiser_Name = book.Publiser_Name;
-                    foundBook.Publiser_Description = book.Publiser_Description;
 
-                    return foundBook;
-                }
-            }
-            catch (Exception ex) {
-                Console.WriteLine(ex.Message);
-            }
-            return null;
-        }
-
-        public Book UpdateBookByQuery(int id, string? title, string? description, string? genre, string? author, string? pub_name, string? pub_des, int? price, int? stock)
-        {
-            try
-            {
-                var foundBook = _context.books.ToList().Find(b => b.Id == id);
-                if (foundBook != null)
-                {
-                    foundBook.Title = title??foundBook.Title;
-                    foundBook.Description =description?? foundBook.Description;
-                    foundBook.Genre =genre??foundBook.Genre ; 
-                    foundBook.Author_Name =author??foundBook.Author_Name ; 
-                    foundBook.Price =price??foundBook.Price ; 
-                    foundBook.Current_Stock =stock??foundBook.Current_Stock ; 
-                    foundBook.Publiser_Name =pub_name??foundBook.Publiser_Name ; 
-                    foundBook.Publiser_Description =pub_des??foundBook.Publiser_Description ; 
-
-                    return foundBook;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return null;
-        }
-
-        public IEnumerable<Book> GetBooksBySearchParams(string? title, string? genre, string? authorName, string? publicationName)
-        {
-            var allBooks = _context.books.ToList();
-            var result = allBooks.FindAll(a=> 
-                            (title!=null && a.Title.Contains(title)) ||
-                            (genre != null && a.Genre.Contains(genre)) ||
-                            (authorName != null && a.Author_Name.Contains(authorName)) ||
-                            (publicationName != null && a.Publiser_Name.Contains(publicationName))
-                        );
+            var result = CustomUtility.FilterBooksBySearchParams( _context, newBook, pageNumber, pageSize);
+            
+            if (result.IsNullOrEmpty())
+                throw new Exception("No Books Found");
+            
             return result;
         }
+        
+        
+        /// <summary>
+        /// Save Changes to DB
+        /// </summary>
         public void Save()
         {
             _context.SaveChanges();

@@ -1,154 +1,192 @@
-﻿using LMS2.Controllers;
-using LMS2.DataContext;
-using LMS2.Models;
+﻿using LMS2.Models.ViewModels;
 using LMS2.Repository;
-using Microsoft.AspNetCore.Http;
+using LMS2.Utility;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text.RegularExpressions;
 
 namespace LMS2.Controllers
 {
+    
+    
     /// <summary>
     /// BorrowRecord Routes
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class borrowRecordsController : ControllerBase
+    public class BorrowRecordsController : ControllerBase
     {
         private readonly IBorrowRecordsRepository _borrowRecordsRepository;
-        public borrowRecordsController(IBorrowRecordsRepository borrowRecordsRepository)
+        
+        
+        /// <summary>
+        /// Borrow Record Controller Constructor
+        /// </summary>
+        /// <param name="borrowRecordsRepository"></param>
+        public BorrowRecordsController(IBorrowRecordsRepository borrowRecordsRepository)
         {
-            _borrowRecordsRepository = borrowRecordsRepository;
+            if(borrowRecordsRepository !=  null)
+                _borrowRecordsRepository = borrowRecordsRepository;
+            else
+                throw new ArgumentNullException(nameof(borrowRecordsRepository));
         }
+        
+        
         /// <summary>
         /// Get All Borrow Records Data
         /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult Get()
         {
-            var res = _borrowRecordsRepository.GetAllBorrowRecords();
-            if (res.IsNullOrEmpty())
-            {
-                return new JsonResult(new { message = "The array is empty" });
-            }
-            return new JsonResult(new { data = res });
-        }
-        /// <summary>
-        /// Get Borrow Record Data By Id
-        /// </summary>
-        [HttpGet("{id}")]
-        public JsonResult GetByID(int id)
-        {
-            var res = _borrowRecordsRepository.GetBorrowRecordById(id);
-            if (res == null)
-            {
-                return new JsonResult(new { message = "No borrow record found with this Id" });
-            }
-            return new JsonResult(new { data = res });
-        }
-        /// <summary>
-        /// Add New Borrow Record
-        /// </summary>
-        [HttpPost]
-        public JsonResult AddBorrowRecord(InputBorrowRecord inputBorrowRecord)
-        {
-            var check = _borrowRecordsRepository.GetAllBorrowRecords()
-                            .Where(x => (
-                                x.BookId == inputBorrowRecord.BookId) &&
-                                (x.MemberId == inputBorrowRecord.MemberId) &&
-                                (x.BorrowDate == inputBorrowRecord.BorrowDate)
-                            );
-            if (!check.IsNullOrEmpty())
-                return new JsonResult(new { message = "BorrowRecord with this BookID, MemberID and Borrow Date already existed" });
-
             try
             {
-                _borrowRecordsRepository.AddBorrowRecord(inputBorrowRecord);
+                var res = _borrowRecordsRepository.GetAllBorrowRecords();
+                return new JsonResult(new { data = res });
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { errorMessage = ex.Message });
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
             }
-            _borrowRecordsRepository.Save();
-            return new JsonResult(Ok());
         }
+        
+        
+        /// <summary>
+        /// Get Borrow Record Data By Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public JsonResult GetByID(int id)
+        {
+            try
+            {
+                var res = _borrowRecordsRepository.GetBorrowRecordById(id);
+                return new JsonResult(new { data = res });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
+        }
+        
+        
+        /// <summary>
+        /// Add New Borrow Record
+        /// </summary>
+        /// <param name="inputBorrowRecord"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult AddBorrowRecord(InputBorrowRecord? inputBorrowRecord)
+        {
+            try
+            {
+                ValidationUtility.ObjectIsNullOrEmpty(inputBorrowRecord);
+                _borrowRecordsRepository.AddBorrowRecord(inputBorrowRecord);
+                _borrowRecordsRepository.Save();
+                return new JsonResult(Ok());
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
+        }
+        
+        
         /// <summary>
         /// Delete Existing Borrow Records by Id
         /// </summary>
-        [HttpDelete]
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
         public JsonResult DeleteBorrowRecord(int id)
         {
-            var borrowRecord = _borrowRecordsRepository.GetBorrowRecordById(id);
-            if (borrowRecord == null)
+            try
             {
-                return new JsonResult(new { message = "No borrowRecord found with this Id" });
+                _borrowRecordsRepository.DeleteBorrowRecord(id);
+                _borrowRecordsRepository.Save();
+                return new JsonResult(Ok());
             }
-            _borrowRecordsRepository.DeleteBorrowRecord(borrowRecord);
-            _borrowRecordsRepository.Save();
-            return new JsonResult(Ok());
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
         }
-        /// <summary>
-        /// Update whole Borrow Records Data
-        /// </summary>
-        [HttpPut("{id}")]
-        public JsonResult PutBorrowRecord(int id, InputBorrowRecord inputBorrowRecord)
-        {
-            if (id == null)
-            {
-                return new JsonResult(new { message = "Id parameter is required" });
-            }
-            var res = _borrowRecordsRepository.UpdateBorrowRecord(id, inputBorrowRecord);
-            if (res == null)
-            {
-                return new JsonResult(new { message = "No BorrowRecord Found with this id" });
-            }
-            _borrowRecordsRepository.Save();
-            return new JsonResult(res);
-        }
+        
+        
         /// <summary>
         /// Patch for updating Borrow Record by BookID, MemberID, borrowDate, dueDate and ReturnDate
         /// </summary>
+        /// <param name="id"></param>
+        /// <param name="borrowRecord"></param>
+        /// <returns></returns>
         [HttpPatch("{id}")]
-        public JsonResult PatchMember(int id, int? bookId, int? memberId, DateTime? borrowDate, DateTime? dueDate, DateTime? returnDate)
+        public JsonResult PatchMember(int id, InputBorrowRecord borrowRecord)
         {
-            if (id == null)
+            try
             {
-                return new JsonResult(new { message = "Id parameter is required" });
-            }
-            if (bookId == null && memberId == null && borrowDate == null && dueDate == null && returnDate == null)
-            {
-                return new JsonResult(new { message = "atleast one field is required to patch borrow record" });
-            }
+                ValidationUtility.ObjectIsNullOrEmpty(borrowRecord);
 
-            var res = _borrowRecordsRepository.UpdateBorrowRecordsByQuery(id, bookId, memberId, borrowDate, dueDate, returnDate);
-            if (res == null)
-            {
-                return new JsonResult(new { message = "No Member Found with this id" });
+                var res = _borrowRecordsRepository.UpdateBorrowRecord(id, borrowRecord);
+                _borrowRecordsRepository.Save();
+                return new JsonResult(res);
             }
-            _borrowRecordsRepository.Save();
-            return new JsonResult(res);
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
         }
+
+
+
         /// <summary>
         /// Search borrow records by bookId, memberId, borrowDate, dueDate, returnDate, bookName, author, genre, publisherName, memberName, email, mobileNumber, city, pincode
         /// </summary>
+        /// <param name="searchBorrow"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [HttpGet("search")]
-        public JsonResult GetBorrowRecordBySearch(int? bookId, int? memberId, DateTime? borrowDate, DateTime? dueDate, DateTime? returnDate,
-                                                                        string? bookName, string? author, string? genre, string? publisherName,
-                                                                        string? memberName, string? email, int? mobileNumber, string? city, string? pincode)
+        public JsonResult GetBorrowRecordBySearch([FromQuery]SearchBorrowRecords searchBorrow, int pageNumber = 1, int pageSize = int.MaxValue)
         {
-            if (bookId == null && memberId == null && borrowDate == null && dueDate == null && returnDate == null && bookName == null && author == null && genre == null && publisherName == null &&memberName == null && email == null && mobileNumber == null && city == null && pincode == null )
-                return new JsonResult(new { message = "provide atleast one params" });
+            try
+            {
+                ValidationUtility.ObjectIsNullOrEmpty(searchBorrow);
 
-            var res = _borrowRecordsRepository.GetBorrowRecordsBySearchParams(bookId, memberId, borrowDate, dueDate, returnDate,
-                                                                        bookName, author, genre, publisherName,
-                                                                        memberName, email, mobileNumber, city, pincode );
+                ValidationUtility.PageInfoValidator(pageNumber, pageSize);
 
-            if (res.IsNullOrEmpty())
-                return new JsonResult(new { message = "No BorrowRecord Found" });
+                var res = _borrowRecordsRepository.GetBorrowRecordsBySearchParams(pageNumber, pageSize, searchBorrow);
 
-            return new JsonResult(new { message = res });
+                return new JsonResult(res);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// Get Overall Penalty
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("OverallPenalty/{id}")]
+        public JsonResult GetOverAllPenalty(int id)
+        {
+            try
+            {
+                var res = _borrowRecordsRepository.GetOverallPenaltyByMemberId(id);
+                return new JsonResult(new { message = "Penalty amount is " + res });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
         }
     }
 }

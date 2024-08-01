@@ -1,6 +1,9 @@
 ﻿using LMS2.DataContext;
 using LMS2.Models;
+using LMS2.Models.ViewModels;
 using LMS2.Repository;
+using LMS2.Utility;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -8,150 +11,171 @@ using System.Text.RegularExpressions;
 
 namespace LMS2.Controllers
 {
+    
+    
+    
     /// <summary>
     /// Member Routes
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class membersController : ControllerBase
+    public class MembersController : ControllerBase
     {
         private readonly IMembersRepository _membersRepository;
-        public membersController(IMembersRepository membersRepository)
+        
+        
+        
+        /// <summary>
+        /// Member Controlller
+        /// </summary>
+        /// <param name="membersRepository"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public MembersController(IMembersRepository membersRepository)
         {
-            _membersRepository = membersRepository;
+            if (membersRepository != null)
+                _membersRepository = membersRepository;
+            else
+                throw new ArgumentNullException(nameof(membersRepository));
         }
+
+
+
         /// <summary>
         /// Get All Member Data
         /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult Get()
         {
-            var res = _membersRepository.GetAllMembers();
-            if (res.IsNullOrEmpty())
-            {
-                return new JsonResult(new { message = "The array is empty" });
-            }
-            return new JsonResult(new { data = res });
-        }
-        /// <summary>
-        /// Get Member Data By Id
-        /// </summary>
-        [HttpGet("{id}")]
-        public JsonResult GetByID(int id)
-        {
-            var res = _membersRepository.GetMemberById(id);
-            if (res == null)
-            {
-                return new JsonResult(new { message = "No member found with this Id" });
-            }
-            return new JsonResult(new { data = res });
-        }
-        /// <summary>
-        /// Add New Member
-        /// </summary>
-        [HttpPost]
-        public JsonResult AddMember(Member member)
-        {
-            var check = _membersRepository.GetAllMembers()
-                            .Where(x => (
-                                x.Name == member.Name) &&
-                                (x.Email == member.Email) &&
-                                (x.MobileNumber == member.MobileNumber)
-                            );
-            if (!check.IsNullOrEmpty())
-                return new JsonResult(new { message = "Member with this name, email and mobile number already existed" });
-
             try
             {
-                _membersRepository.AddMember(member);
+                var res = _membersRepository.GetAllMembers();
+                return new JsonResult(new { data = res.ToList() });
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { errorMessage = ex.Message });
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
             }
-            _membersRepository.Save();
-            return new JsonResult(Ok());
         }
+
+
+
+        /// <summary>
+        /// Get Member Data By Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public JsonResult GetByID(int id)
+        {
+            try
+            {
+                var res = _membersRepository.GetMemberById(id);
+                return new JsonResult(new { data = res });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
+        }
+        
+        
+        
+        /// <summary>
+        /// Add New Member
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult AddMember(InputMember? member)
+        {
+            try
+            {
+                ValidationUtility.ObjectIsNullOrEmpty(member);
+                _membersRepository.AddMember(member);
+                _membersRepository.Save();
+                return new JsonResult(Ok());
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
+        }
+        
+        
         /// <summary>
         /// Delete Existing Member by Id
         /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         public JsonResult DeleteMember(int id)
         {
-            var member = _membersRepository.GetMemberById(id);
-            if (member == null)
+            try
             {
-                return new JsonResult(new { message = "No member found with this Id" });
+                _membersRepository.DeleteMember(id);
+                _membersRepository.Save();
+                return new JsonResult(Ok());
             }
-            _membersRepository.DeleteMember(member);
-            _membersRepository.Save();
-            return new JsonResult(Ok());
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
         }
-        /// <summary>
-        /// Update whole Member Data
-        /// </summary>
-        [HttpPut("{id}")]
-        public JsonResult PutMember(int id, Member member)
-        {
-            if (id == null)
-            {
-                return new JsonResult(new { message = "Id parameter is required" });
-            }
-            var res = _membersRepository.UpdateMember(id, member);
-            if (res == null)
-            {
-                return new JsonResult(new { message = "No Member Found with this id" });
-            }
-            _membersRepository.Save();
-            return new JsonResult(res);
-        }
+        
+        
         /// <summary>
         /// Patch for updating member by name, email, mobile number, address, city, pincode
         /// </summary>
+        /// <param name="id"></param>
+        /// <param name="member"></param>
+        /// <returns></returns>
         [HttpPatch("{id}")]
-        public JsonResult PatchMember(int id, string? name, string? email, int? mobile, string? address, string? city, string? pincode)
+        public JsonResult PatchMember(int id,InputMember? member)
         {
-            if (id == null)
+            try
             {
-                return new JsonResult(new { message = "Id parameter is required" });
+                ValidationUtility.ObjectIsNullOrEmpty(member);
+
+                var res = _membersRepository.UpdateMember(id, member);
+                _membersRepository.Save();
+                return new JsonResult(res);
             }
-            if (name == null && email == null && mobile == null && address == null && city == null)
+            catch (Exception ex)
             {
-                return new JsonResult(new { message = "atleast one field is required to patch member" });
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
             }
-            if (name?.Length >= 300 ||
-                email?.Length >= 100 ||
-                ! new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$").IsMatch(email??"") ||
-                ! new Regex(@"^\d{10}$").IsMatch(mobile?.ToString()??"")||
-                ! new Regex(@"^\d{6}$").IsMatch(pincode ?? "")
-                )
-            {
-                return new JsonResult(new { message = "Invalid format" });
-            }
-            var res = _membersRepository.UpdateMemberByQuery(id, name, email, mobile, address, city, pincode);
-            if (res == null)
-            {
-                return new JsonResult(new { message = "No Member Found with this id" });
-            }
-            _membersRepository.Save();
-            return new JsonResult(res);
         }
 
+        
+        
+        
         /// <summary>
         /// Search member by Name, Email, MobileNumber, City and Pincode
         /// </summary>
         [HttpGet("search")]
-        public JsonResult GetMemberBySearch(string? name, string? email, int? mobile, string? city , string? pincode)
+        public JsonResult GetMemberBySearch([FromQuery]InputMember inputMember, int pageNumber = 1, int pageSize = int.MaxValue)
         {
-            if (name == null && email == null && mobile == null && city == null && pincode == null)
-                return new JsonResult(new { message = "provide atleast one params" });
+            try
+            {
+                ValidationUtility.ObjectIsNullOrEmpty(inputMember);
 
-            var res = _membersRepository.GetMembersBySearchParams(name, email, mobile, city, pincode);
+                ValidationUtility.PageInfoValidator(pageNumber, pageSize);
 
-            if (res.IsNullOrEmpty())
-                return new JsonResult(new { message = "No Member Found" });
-
-            return new JsonResult(new { message = res });
+                var res = _membersRepository.GetMembersBySearchParams(pageNumber, pageSize, inputMember);
+                _membersRepository.Save();
+                return new JsonResult(res);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
         }
     }
 }

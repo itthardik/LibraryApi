@@ -7,8 +7,16 @@ using System.Reflection;
 
 namespace LMS2
 {
+    /// <summary>
+    /// Program Class
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Main Funtion work as entry point of the Solution
+        /// </summary>
+        /// <param name="args"></param>
+        /// <exception cref="InvalidOperationException"></exception>
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
