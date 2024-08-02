@@ -19,11 +19,11 @@ namespace LMS2.Repository
         /// <summary>
         /// 
         /// </summary>
-        void AddMember(InputMember? member);
+        void AddMember(RequestMember? member);
         /// <summary>
         /// 
         /// </summary>
-        Member UpdateMember(int id,InputMember? member);
+        Member UpdateMember(int id,RequestMember? member);
         /// <summary>
         /// 
         /// </summary>
@@ -31,7 +31,7 @@ namespace LMS2.Repository
         /// <summary>
         /// 
         /// </summary>
-        IQueryable<Member> GetMembersBySearchParams(int pageNumber, int pageSize, InputMember newMember);
+        IQueryable<Member> GetMembersBySearchParams(int pageNumber, int pageSize, RequestMember newMember);
         /// <summary>
         /// 
         /// </summary>

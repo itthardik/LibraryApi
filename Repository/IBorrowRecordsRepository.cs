@@ -23,14 +23,14 @@ namespace LMS2.Repository
         /// Add new BorrowRecord
         /// </summary>
         /// <param name="borrowRecord"></param>
-        void AddBorrowRecord(InputBorrowRecord? borrowRecord);
+        void AddBorrowRecord(RequestBorrowRecord? borrowRecord);
         /// <summary>
         /// Update Borrow Record by ID
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="inputBorrowRecord"></param>
+        /// <param name="requestBorrowRecord"></param>
         /// <returns></returns>
-        BorrowRecord UpdateBorrowRecord(int id, InputBorrowRecord inputBorrowRecord);
+        BorrowRecord UpdateBorrowRecord(int id, RequestBorrowRecord requestBorrowRecord);
         /// <summary>
         /// Delete Borrow Record By ID
         /// </summary>
@@ -50,6 +50,15 @@ namespace LMS2.Repository
         /// <param name="memberId"></param>
         /// <returns></returns>
         public int GetOverallPenaltyByMemberId(int memberId);
+        /// <summary>
+        /// Get borrow records to notify
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<BorrowRecord> GetBorrowRecordToNotify();
+        /// <summary>
+        /// Borrow Record Intigrity Function
+        /// </summary>
+        public void BorrowRecordIntegrity();
         /// <summary>
         /// Save Changes to DB
         /// </summary>

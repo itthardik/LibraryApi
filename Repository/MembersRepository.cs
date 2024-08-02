@@ -39,7 +39,7 @@ namespace LMS2.Repository
             var allMembers = _context.Members
                                 .Where<Member>(m => m.IsDeleted == false);
             if (!allMembers.Any())
-                throw new Exception("No Members found");
+                throw new CustomException("No Members found");
 
             return allMembers;
         }
@@ -57,7 +57,7 @@ namespace LMS2.Repository
                             .ToList();
 
             if (members.IsNullOrEmpty())
-                throw new Exception("No member found with this Id");
+                throw new CustomException("No member found with this Id");
 
             return members[0];
         }
@@ -66,15 +66,15 @@ namespace LMS2.Repository
         /// <summary>
         /// Add new member
         /// </summary>
-        /// <param name="inputMember"></param>
-        public void AddMember(InputMember? inputMember)
+        /// <param name="requestMember"></param>
+        public void AddMember(RequestMember? requestMember)
         {
-            if (inputMember == null)
-                throw new Exception("Invalid Format");
+            if (requestMember == null)
+                throw new CustomException("Invalid Format");
 
-            ValidationUtility.IsMemberAlreadyExist(GetAllMembers(), inputMember);
+            ValidationUtility.IsMemberAlreadyExist(GetAllMembers(), requestMember);
 
-            Member newMember = CustomUtility.ConvertInputMemberToMember(inputMember);   
+            Member newMember = CustomUtility.ConvertRequestMemberToMember(requestMember);   
 
             _context.Members.Add(newMember);
         }
@@ -95,19 +95,19 @@ namespace LMS2.Repository
         /// Update Book by Id
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="inputMember"></param>
+        /// <param name="requestMember"></param>
         /// <returns></returns>
-        public Member UpdateMember(int id, InputMember? inputMember)
+        public Member UpdateMember(int id, RequestMember? requestMember)
         {
             if (id == 0)
-                throw new Exception("Id cannot be Zero");
+                throw new CustomException("Id cannot be Zero");
 
-            if (inputMember == null)
-                throw new Exception("Invalid Format");
+            if (requestMember == null)
+                throw new CustomException("Invalid Format");
 
             var foundMember = GetMemberById(id);
 
-            CustomUtility.UpdateObject1WithObject2 ( foundMember , inputMember );
+            CustomUtility.UpdateObject1WithObject2 ( foundMember , requestMember );
 
             return foundMember;
         }
@@ -121,13 +121,13 @@ namespace LMS2.Repository
         /// <param name="newMember"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IQueryable<Member> GetMembersBySearchParams(int pageNumber, int pageSize, InputMember newMember)
+        public IQueryable<Member> GetMembersBySearchParams(int pageNumber, int pageSize, RequestMember newMember)
         {
             var result = CustomUtility.FilterMembersBySearchParams ( _context, newMember, pageNumber, pageSize);
 
             if (result.IsNullOrEmpty())
             {
-                throw new Exception("No Members Found");
+                throw new CustomException("No Members Found");
             }
             
             return result;

@@ -1,7 +1,9 @@
 
 using LMS2.DataContext;
 using LMS2.Repository;
+using LMS2.Utility;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -40,9 +42,9 @@ namespace LMS2
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
                 c.IncludeXmlComments(xmlPath);
             });
+
 
             var app = builder.Build();
 

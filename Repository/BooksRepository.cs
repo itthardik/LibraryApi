@@ -47,7 +47,7 @@ namespace LMS2.Repository
                                 .Where<Book>(b => b.IsDeleted == false);
                                 
             if (!allBooks.Any())
-                throw new Exception("No Books found");
+                throw new CustomException("No Books found");
 
             return allBooks; 
         }
@@ -65,7 +65,7 @@ namespace LMS2.Repository
                             .ToList();
 
             if (books.IsNullOrEmpty())
-                throw new Exception("No book found with this Id");
+                throw new CustomException("No book found with this Id");
 
             return books[0];
         }
@@ -74,16 +74,16 @@ namespace LMS2.Repository
         /// <summary>
         /// Add new Book
         /// </summary>
-        /// <param name="inputBook"></param>
+        /// <param name="requestBook"></param>
         /// <exception cref="Exception"></exception>
-        public void AddBook(InputBook? inputBook) {
+        public void AddBook(RequestBook? requestBook) {
             
-            if (inputBook == null)
-                throw new Exception("Invalid Format");
+            if (requestBook == null)
+                throw new CustomException("Invalid Format");
 
-            ValidationUtility.IsBookAlreadyExist( GetAllBooks(), inputBook);
+            ValidationUtility.IsBookAlreadyExist( GetAllBooks(), requestBook);
 
-            Book newBook = CustomUtility.ConvertInputBookToBook(inputBook);
+            Book newBook = CustomUtility.ConvertRequestBookToBook(requestBook);
 
             _context.Books.Add(newBook);
         }
@@ -101,19 +101,19 @@ namespace LMS2.Repository
         
         
         /// <summary>
-        /// Update book by id and InputBook
+        /// Update book by id and RequestBook
         /// </summary>
         /// <param name="id"></param>
         /// <param name="book"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public Book UpdateBook(int id, InputBook book)
+        public Book UpdateBook(int id, RequestBook book)
         {
             if (id == 0)
-                throw new Exception("Id cannot be Zero");
+                throw new CustomException("Id cannot be Zero");
 
             if(book == null) 
-                throw new Exception("Invalid Format");
+                throw new CustomException("Invalid Format");
 
             var foundBook = GetBookById(id);
 
@@ -131,13 +131,13 @@ namespace LMS2.Repository
         /// <param name="pageSize"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IQueryable<Book> GetBooksBySearchParams( int pageNumber, int pageSize, InputBook newBook)
+        public IQueryable<Book> GetBooksBySearchParams( int pageNumber, int pageSize, RequestBook newBook)
             {
 
             var result = CustomUtility.FilterBooksBySearchParams( _context, newBook, pageNumber, pageSize);
             
             if (result.IsNullOrEmpty())
-                throw new Exception("No Books Found");
+                throw new CustomException("No Books Found");
             
             return result;
         }

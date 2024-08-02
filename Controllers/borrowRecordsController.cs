@@ -1,7 +1,9 @@
-﻿using LMS2.Models.ViewModels;
+﻿using LMS2.Models;
+using LMS2.Models.ViewModels;
 using LMS2.Repository;
 using LMS2.Utility;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace LMS2.Controllers
 {
@@ -10,21 +12,21 @@ namespace LMS2.Controllers
     /// <summary>
     /// BorrowRecord Routes
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/borrowRecords")]
     [ApiController]
     public class BorrowRecordsController : ControllerBase
     {
         private readonly IBorrowRecordsRepository _borrowRecordsRepository;
-        
-        
+
         /// <summary>
         /// Borrow Record Controller Constructor
         /// </summary>
-        /// <param name="borrowRecordsRepository"></param>
         public BorrowRecordsController(IBorrowRecordsRepository borrowRecordsRepository)
         {
-            if(borrowRecordsRepository !=  null)
+            if (borrowRecordsRepository != null)
+            {
                 _borrowRecordsRepository = borrowRecordsRepository;
+            }
             else
                 throw new ArgumentNullException(nameof(borrowRecordsRepository));
         }
@@ -74,15 +76,15 @@ namespace LMS2.Controllers
         /// <summary>
         /// Add New Borrow Record
         /// </summary>
-        /// <param name="inputBorrowRecord"></param>
+        /// <param name="requestBorrowRecord"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult AddBorrowRecord(InputBorrowRecord? inputBorrowRecord)
+        public JsonResult AddBorrowRecord(RequestBorrowRecord? requestBorrowRecord)
         {
             try
             {
-                ValidationUtility.ObjectIsNullOrEmpty(inputBorrowRecord);
-                _borrowRecordsRepository.AddBorrowRecord(inputBorrowRecord);
+                ValidationUtility.ObjectIsNullOrEmpty(requestBorrowRecord);
+                _borrowRecordsRepository.AddBorrowRecord(requestBorrowRecord);
                 _borrowRecordsRepository.Save();
                 return new JsonResult(Ok());
             }
@@ -123,7 +125,7 @@ namespace LMS2.Controllers
         /// <param name="borrowRecord"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public JsonResult PatchMember(int id, InputBorrowRecord borrowRecord)
+        public JsonResult PatchMember(int id, RequestBorrowRecord borrowRecord)
         {
             try
             {
@@ -174,13 +176,59 @@ namespace LMS2.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("OverallPenalty/{id}")]
+        [HttpGet("penalty/{id}")]
         public JsonResult GetOverAllPenalty(int id)
         {
             try
             {
                 var res = _borrowRecordsRepository.GetOverallPenaltyByMemberId(id);
                 return new JsonResult(new { message = "Penalty amount is " + res });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Notify all users for upcoming return date
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("notificationForReturn")]
+        public JsonResult NotifyAllUsers()
+        {
+            try
+            {
+                var borrowRecordsToMail = _borrowRecordsRepository.GetBorrowRecordToNotify();
+                foreach (var record in borrowRecordsToMail)
+                {
+                    try
+                    {
+                        new EmailSender().SendEmail(record);
+                    }
+                    catch(Exception ex){
+                        return new JsonResult(new { ex.Message , record});
+                    }
+                }
+                return new JsonResult(Ok());
+            }
+            catch (Exception ex) { 
+                Logger.LogException(ex);
+                return new JsonResult(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Run Database Integrity Job
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("databaseIntegrityJob")]
+        public JsonResult RunDatabaseIntegrityJob()
+        {
+            try
+            {
+                _borrowRecordsRepository.BorrowRecordIntegrity();
+                _borrowRecordsRepository.Save();
+                return new JsonResult(Ok());
             }
             catch (Exception ex)
             {

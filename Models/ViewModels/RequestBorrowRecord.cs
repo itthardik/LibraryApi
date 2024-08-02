@@ -3,9 +3,9 @@
 namespace LMS2.Models.ViewModels
 {
     /// <summary>
-    /// model for input borrowRecord
+    /// model for request borrowRecord
     /// </summary>
-    public class InputBorrowRecord
+    public class RequestBorrowRecord
     {
         /// <summary>
         /// Book's ID
@@ -27,5 +27,9 @@ namespace LMS2.Models.ViewModels
         /// Return Date
         /// </summary>
         public DateTime? ReturnDate { get; set; }
+        /// <summary>
+        /// Penalty paid Statuts
+        /// </summary>
+        public bool? IsPenaltyPaid { get; set; }
     }
 }

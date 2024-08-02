@@ -52,6 +52,10 @@ namespace LMS2.Models
         /// </summary>
         public DateTime CreatedAt { get; private set; } = DateTime.Now;
         /// <summary>
+        /// Penalty Status
+        /// </summary>
+        public bool IsPenaltyPaid { get; set; } = false;
+        /// <summary>
         /// store the data of Book and not required field
         /// </summary>
         public Book? Book { get; set; }

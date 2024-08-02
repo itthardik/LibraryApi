@@ -4,6 +4,7 @@ using LMS2.Models.ViewModels;
 using LMS2.Utility;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 
 namespace LMS2.Repository
 {
@@ -15,15 +16,25 @@ namespace LMS2.Repository
     public class BorrowRecordsRepository : IBorrowRecordsRepository
     {
         private readonly ApiContext _context;
-        
-        
-        
+        private readonly int _penaltyRate;
+        private readonly int _notificationInterval;
+        private readonly int _oldRecordCriteriaInMonths;
+
+
         /// <summary>
         /// Borrow Record Constructor
         /// </summary>
         /// <param name="context"></param>
         public BorrowRecordsRepository(ApiContext? context)
         {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            _penaltyRate = configuration.GetValue<int>("AppConstraint:PenaltyRate");
+            _notificationInterval = configuration.GetValue<int>("AppConstraint:NotificationInterval");
+            _oldRecordCriteriaInMonths = configuration.GetValue<int>("AppConstraint:OldRecordCriteriaInMonths");
+
             if (context != null)
                 _context = context;
             else
@@ -43,7 +54,7 @@ namespace LMS2.Repository
                                     .Include(br => br.Member)
                                     .Include(br => br.Book);
             if (!allBooks.Any())
-                throw new Exception("No Books found");
+                throw new CustomException("No Books found");
 
             return allBooks;
         }
@@ -64,7 +75,7 @@ namespace LMS2.Repository
                             .Include(br => br.Book)
                             .ToList();
             if (books.IsNullOrEmpty())
-                throw new Exception("No Borrow Record found with this Id");
+                throw new CustomException("No Borrow Record found with this Id");
 
             return books[0];
         }
@@ -74,29 +85,29 @@ namespace LMS2.Repository
         /// <summary>
         /// Add new Borrow Record
         /// </summary>
-        /// <param name="inputBorrowRecord"></param>
+        /// <param name="requestBorrowRecord"></param>
         /// <exception cref="Exception"></exception>
-        public void AddBorrowRecord(InputBorrowRecord? inputBorrowRecord)
+        public void AddBorrowRecord(RequestBorrowRecord? requestBorrowRecord)
         {
 
-            if (inputBorrowRecord == null)
-                throw new Exception("Invalid Format");
+            if (requestBorrowRecord == null)
+                throw new CustomException("Invalid Format");
 
-            ValidationUtility.IsBorrowRecordAlreadyExist(GetAllBorrowRecords(), inputBorrowRecord);
+            ValidationUtility.IsBorrowRecordAlreadyExist(GetAllBorrowRecords(), requestBorrowRecord);
 
-            ValidationUtility.CheckValidBorrowDate(inputBorrowRecord);
+            ValidationUtility.CheckValidBorrowDate(requestBorrowRecord);
 
-            var book = CustomUtility.GetBookDataFromIdByContext(_context, inputBorrowRecord.BookId);
+            var book = CustomUtility.GetBookDataFromIdByContext(_context, requestBorrowRecord.BookId);
 
-            var member = CustomUtility.GetMemberDataFromIdByContext(_context, inputBorrowRecord.MemberId);
+            var member = CustomUtility.GetMemberDataFromIdByContext(_context, requestBorrowRecord.MemberId);
 
             if (book.CurrentStock <= 0)
-                throw new Exception(message: "No Stock of Specified Book");
+                throw new CustomException(message: "No Stock of Specified Book");
             else
                 book.CurrentStock--;
 
 
-            BorrowRecord newBorrowRecord = CustomUtility.ConvertInputBorrowRecordToBorrowRecord(inputBorrowRecord, book, member);
+            BorrowRecord newBorrowRecord = CustomUtility.ConvertRequestBorrowRecordToBorrowRecord(requestBorrowRecord, book, member, _penaltyRate);
 
             _context.BorrowRecords.Add(newBorrowRecord);
         }
@@ -123,53 +134,55 @@ namespace LMS2.Repository
         /// Update BorrowRecord with ID
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="inputBorrowRecord"></param>
+        /// <param name="requestBorrowRecord"></param>
         /// <returns></returns>
         //Todo not working for no books and members
-        public BorrowRecord UpdateBorrowRecord(int id,InputBorrowRecord inputBorrowRecord)
+        public BorrowRecord UpdateBorrowRecord(int id,RequestBorrowRecord requestBorrowRecord)
         {
             if (id == 0)
-                throw new Exception("Id cannot be Zero");
+                throw new CustomException("Id cannot be Zero");
     
-            if (inputBorrowRecord == null)
-                throw new Exception("Invalid Format");
+            if (requestBorrowRecord == null)
+                throw new CustomException("Invalid Format");
 
             var foundBorrowRecord = GetBorrowRecordById(id);
 
 
-            if ( inputBorrowRecord.BookId != null && foundBorrowRecord.BookId != inputBorrowRecord.BookId)
+            if ( requestBorrowRecord.BookId != null && foundBorrowRecord.BookId != requestBorrowRecord.BookId)
             {
 
-                var newBook = CustomUtility.GetBookDataFromIdByContext(_context, inputBorrowRecord.BookId);
+                var newBook = CustomUtility.GetBookDataFromIdByContext(_context, requestBorrowRecord.BookId);
 
                 var prevBook = CustomUtility.GetBookDataFromIdByContext(_context, foundBorrowRecord.BookId);
 
 
                 if (newBook.CurrentStock <= 0)
-                    throw new Exception(message: "No stock of specified Book");
+                    throw new CustomException(message: "No stock of specified Book");
 
                 prevBook.CurrentStock++;
                 newBook.CurrentStock--;
 
                 foundBorrowRecord.Book = newBook;
-                foundBorrowRecord.BookId = inputBorrowRecord.BookId ?? foundBorrowRecord.BookId ;
+                foundBorrowRecord.BookId = requestBorrowRecord.BookId ?? foundBorrowRecord.BookId ;
             }
 
-            if (inputBorrowRecord.MemberId != null && foundBorrowRecord.MemberId != inputBorrowRecord.MemberId)
+            if (requestBorrowRecord.MemberId != null && foundBorrowRecord.MemberId != requestBorrowRecord.MemberId)
             {
-                var member = CustomUtility.GetMemberDataFromIdByContext(_context, inputBorrowRecord.MemberId);
+                var member = CustomUtility.GetMemberDataFromIdByContext(_context, requestBorrowRecord.MemberId);
 
                 foundBorrowRecord.Member = member;
-                foundBorrowRecord.MemberId = inputBorrowRecord.MemberId ?? foundBorrowRecord.MemberId;
+                foundBorrowRecord.MemberId = requestBorrowRecord.MemberId ?? foundBorrowRecord.MemberId;
             }
 
-            ValidationUtility.CheckValidBorrowDate(inputBorrowRecord, foundBorrowRecord);
+            ValidationUtility.CheckValidBorrowDate(requestBorrowRecord, foundBorrowRecord);
 
-            foundBorrowRecord.BorrowDate = inputBorrowRecord.BorrowDate ?? foundBorrowRecord.BorrowDate;
-            foundBorrowRecord.DueDate = inputBorrowRecord.DueDate ?? foundBorrowRecord.DueDate;
-            foundBorrowRecord.ReturnDate = inputBorrowRecord.ReturnDate ?? foundBorrowRecord.ReturnDate;
+            foundBorrowRecord.BorrowDate = requestBorrowRecord.BorrowDate ?? foundBorrowRecord.BorrowDate;
+            foundBorrowRecord.DueDate = requestBorrowRecord.DueDate ?? foundBorrowRecord.DueDate;
+            foundBorrowRecord.ReturnDate = requestBorrowRecord.ReturnDate ?? foundBorrowRecord.ReturnDate;
 
-            foundBorrowRecord.PenaltyAmount = CustomUtility.CalculatePenaltyAmount(foundBorrowRecord.DueDate, foundBorrowRecord.ReturnDate??DateTime.MinValue);
+            foundBorrowRecord.PenaltyAmount = CustomUtility.CalculatePenaltyAmount(foundBorrowRecord.DueDate, foundBorrowRecord.ReturnDate??DateTime.MinValue, _penaltyRate);
+
+            foundBorrowRecord.IsPenaltyPaid = requestBorrowRecord.IsPenaltyPaid?? foundBorrowRecord.IsPenaltyPaid;
 
             return foundBorrowRecord;
             
@@ -191,7 +204,7 @@ namespace LMS2.Repository
                             .Take<BorrowRecord>(pageSize);
 
             if (result.IsNullOrEmpty())
-                throw new Exception("No Borrow Record Found");
+                throw new CustomException("No Borrow Record Found");
 
             return result;
         }
@@ -208,7 +221,7 @@ namespace LMS2.Repository
                                     .ToList();
 
             if (allBorrowRecordsByMemberId.IsNullOrEmpty())
-                throw new Exception("No member found with this Id");
+                throw new CustomException("No member found with this Id");
 
             var sum = 0;
             foreach(var  b in allBorrowRecordsByMemberId)
@@ -221,6 +234,40 @@ namespace LMS2.Repository
 
 
 
+        /// <summary>
+        /// Get Borrow Record to notify
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<BorrowRecord> GetBorrowRecordToNotify()
+        {
+            var allBorrowRecord = GetAllBorrowRecords();
+
+            var dayAfterNotificationEnable = DateTime.Now.AddDays(_notificationInterval);
+            var currentDate = DateTime.Now;
+
+            var recordsWithReturnDates = allBorrowRecord.Where(b => (b.DueDate >= currentDate && b.DueDate <= dayAfterNotificationEnable) && (b.ReturnDate == null));
+
+            return recordsWithReturnDates;
+        }
+        /// <summary>
+        /// Borrow Record Integrity 
+        /// </summary>
+        public void BorrowRecordIntegrity()
+        {
+            var allBorrowRecords = GetAllBorrowRecords();
+
+            var recordsViolatingDatabaseIntegrity = allBorrowRecords.Where(br => (br.Member != null && br.Member.IsDeleted == true) || (br.Book != null && br.Book.IsDeleted == true) );
+            foreach (var record in recordsViolatingDatabaseIntegrity)
+            {
+                record.IsDeleted = true;
+            }
+
+            var recordsWhichAreOlder = allBorrowRecords.Where(br => (br.IsPenaltyPaid == true) && ( DateTime.Compare( br.ReturnDate ??DateTime.MaxValue , DateTime.Now.AddMonths(-_oldRecordCriteriaInMonths) ) < 0));
+            foreach (var record in recordsWhichAreOlder)
+            {
+                record.IsDeleted = true;
+            }
+        }
         /// <summary>
         /// Save Changes in DB
         /// </summary>

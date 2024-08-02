@@ -3,9 +3,9 @@
 namespace LMS2.Models.ViewModels
 {
     /// <summary>
-    /// Input Class for Member
+    /// Request Class for Member
     /// </summary>
-    public class InputMember
+    public class RequestMember
     {
         /// <summary>
         /// Name and has limit upto 300

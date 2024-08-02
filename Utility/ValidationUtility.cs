@@ -12,74 +12,74 @@ namespace LMS2.Utility
         /// <summary>
         /// Check gor vaild date of Borrow Records
         /// </summary>
-        /// <param name="inputBorrowRecord"></param>
+        /// <param name="requestBorrowRecord"></param>
         /// <param name="foundBorrowRecord"></param>
         /// <exception cref="Exception"></exception>
-        static public void CheckValidBorrowDate(InputBorrowRecord inputBorrowRecord, BorrowRecord? foundBorrowRecord = null )
+        static public void CheckValidBorrowDate(RequestBorrowRecord requestBorrowRecord, BorrowRecord? foundBorrowRecord = null )
         {
-            if (inputBorrowRecord.BorrowDate != null)
+            if (requestBorrowRecord.BorrowDate != null)
             {
-                if (inputBorrowRecord.DueDate != null && inputBorrowRecord.BorrowDate > inputBorrowRecord.DueDate) { throw new Exception(message: "Borrow date can not be after Due Date"); }
-                if (inputBorrowRecord.ReturnDate != null && inputBorrowRecord.BorrowDate > inputBorrowRecord.ReturnDate) { throw new Exception(message: "Borrow date can not be after Return Date"); }
+                if (requestBorrowRecord.DueDate != null && requestBorrowRecord.BorrowDate > requestBorrowRecord.DueDate) { throw new CustomException(message: "Borrow date can not be after Due Date"); }
+                if (requestBorrowRecord.ReturnDate != null && requestBorrowRecord.BorrowDate > requestBorrowRecord.ReturnDate) { throw new CustomException(message: "Borrow date can not be after Return Date"); }
                 if (foundBorrowRecord != null)
                 {
-                    if (inputBorrowRecord.BorrowDate > foundBorrowRecord.DueDate) { throw new Exception(message: "Borrow date can not be after Due Date"); }
-                    if (inputBorrowRecord.BorrowDate > foundBorrowRecord.ReturnDate) { throw new Exception(message: "Borrow date can not be after Return Date"); }
+                    if (requestBorrowRecord.BorrowDate > foundBorrowRecord.DueDate) { throw new CustomException(message: "Borrow date can not be after Due Date"); }
+                    if (requestBorrowRecord.BorrowDate > foundBorrowRecord.ReturnDate) { throw new CustomException(message: "Borrow date can not be after Return Date"); }
                 }
             }
             else
             {
-                if (inputBorrowRecord.DueDate != null && foundBorrowRecord?.BorrowDate > inputBorrowRecord.DueDate) { throw new Exception(message: "Borrow date can not be after Due Date"); }
-                if (inputBorrowRecord.ReturnDate != null && foundBorrowRecord?.BorrowDate > inputBorrowRecord.ReturnDate) { throw new Exception(message: "Borrow date can not be after Return Date"); }
+                if (requestBorrowRecord.DueDate != null && foundBorrowRecord?.BorrowDate > requestBorrowRecord.DueDate) { throw new CustomException(message: "Borrow date can not be after Due Date"); }
+                if (requestBorrowRecord.ReturnDate != null && foundBorrowRecord?.BorrowDate > requestBorrowRecord.ReturnDate) { throw new CustomException(message: "Borrow date can not be after Return Date"); }
             }
         }
         /// <summary>
         /// Check Borrow Record Exist Already?
         /// </summary>
         /// <param name="allBorrowRecords"></param>
-        /// <param name="inputBorrowRecord"></param>
+        /// <param name="requestBorrowRecord"></param>
         /// <exception cref="Exception"></exception>
-        static public void IsBorrowRecordAlreadyExist(IQueryable<BorrowRecord> allBorrowRecords, InputBorrowRecord inputBorrowRecord)
+        static public void IsBorrowRecordAlreadyExist(IQueryable<BorrowRecord> allBorrowRecords, RequestBorrowRecord requestBorrowRecord)
         {
             var check = allBorrowRecords
                         .Where(x => (
-                            x.BookId == inputBorrowRecord.BookId &&
-                            x.MemberId == inputBorrowRecord.MemberId &&
-                            x.BorrowDate == inputBorrowRecord.BorrowDate
+                            x.BookId == requestBorrowRecord.BookId &&
+                            x.MemberId == requestBorrowRecord.MemberId &&
+                            x.BorrowDate == requestBorrowRecord.BorrowDate
                         ))
                         .Any();
             if (check)
-                throw new Exception("Borrow Record with this same BookID & MemberID exist");
+                throw new CustomException("Borrow Record with this same BookID & MemberID exist");
         }
         /// <summary>
         /// Check Book Exist Already?
         /// </summary>
         /// <param name="allBooks"></param>
-        /// <param name="inputBook"></param>
+        /// <param name="requestBook"></param>
         /// <exception cref="Exception"></exception>
-        static public void IsBookAlreadyExist(IQueryable<Book> allBooks , InputBook inputBook)
+        static public void IsBookAlreadyExist(IQueryable<Book> allBooks , RequestBook requestBook)
         {
-            var check = allBooks.Where(x => x.Title == inputBook.Title)
+            var check = allBooks.Where(x => x.Title == requestBook.Title)
                         .Any();
             if (check)
-                throw new Exception("Book with this name exist");
+                throw new CustomException("Book with this name exist");
 
         }
         /// <summary>
         /// Check Member Exist Already?
         /// </summary>
         /// <param name="allMembers"></param>
-        /// <param name="inputMember"></param>
+        /// <param name="requestMember"></param>
         /// <exception cref="Exception"></exception>
-        static public void IsMemberAlreadyExist(IQueryable<Member> allMembers, InputMember inputMember) {
+        static public void IsMemberAlreadyExist(IQueryable<Member> allMembers, RequestMember requestMember) {
             var check = allMembers.Where(x => (
-                                    (x.Name == inputMember.Name) &&
-                                    (x.Email == inputMember.Email) &&
-                                    (x.MobileNumber == inputMember.MobileNumber)
+                                    (x.Name == requestMember.Name) &&
+                                    (x.Email == requestMember.Email) &&
+                                    (x.MobileNumber == requestMember.MobileNumber)
                                     )
                                 ).Any();
             if (check)
-                throw new Exception("Member with this name, email and mobile number already exist");
+                throw new CustomException("Member with this name, email and mobile number already exist");
         }
         /// <summary>
         /// Check Object is Null or Empty
@@ -89,7 +89,7 @@ namespace LMS2.Utility
         static public void ObjectIsNullOrEmpty(Object? obj)
         {
             if (obj == null)
-                throw new Exception("Value cannot be null");
+                throw new CustomException("Value cannot be null");
 
             var flag = false;
             foreach (var property in obj.GetType().GetProperties())
@@ -102,7 +102,7 @@ namespace LMS2.Utility
             }
 
             if (!flag)
-                throw new Exception("Required atleast one field");
+                throw new CustomException("Required atleast one field");
         }
         /// <summary>
         /// Validate Page Size and Page Number
@@ -113,7 +113,7 @@ namespace LMS2.Utility
         static public void PageInfoValidator(int pageNumber, int pageSize)
         {
             if (pageNumber < 1 || pageSize < 1)
-                throw new Exception("Page Number and Page Size cannot be negative");
+                throw new CustomException("Page Number and Page Size cannot be negative");
         }
 
     }

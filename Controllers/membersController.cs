@@ -17,7 +17,7 @@ namespace LMS2.Controllers
     /// <summary>
     /// Member Routes
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/members")]
     [ApiController]
     public class MembersController : ControllerBase
     {
@@ -89,7 +89,7 @@ namespace LMS2.Controllers
         /// <param name="member"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult AddMember(InputMember? member)
+        public JsonResult AddMember(RequestMember? member)
         {
             try
             {
@@ -135,7 +135,7 @@ namespace LMS2.Controllers
         /// <param name="member"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public JsonResult PatchMember(int id,InputMember? member)
+        public JsonResult PatchMember(int id,RequestMember? member)
         {
             try
             {
@@ -159,15 +159,15 @@ namespace LMS2.Controllers
         /// Search member by Name, Email, MobileNumber, City and Pincode
         /// </summary>
         [HttpGet("search")]
-        public JsonResult GetMemberBySearch([FromQuery]InputMember inputMember, int pageNumber = 1, int pageSize = int.MaxValue)
+        public JsonResult GetMemberBySearch([FromQuery]RequestMember requestMember, int pageNumber = 1, int pageSize = int.MaxValue)
         {
             try
             {
-                ValidationUtility.ObjectIsNullOrEmpty(inputMember);
+                ValidationUtility.ObjectIsNullOrEmpty(requestMember);
 
                 ValidationUtility.PageInfoValidator(pageNumber, pageSize);
 
-                var res = _membersRepository.GetMembersBySearchParams(pageNumber, pageSize, inputMember);
+                var res = _membersRepository.GetMembersBySearchParams(pageNumber, pageSize, requestMember);
                 _membersRepository.Save();
                 return new JsonResult(res);
             }

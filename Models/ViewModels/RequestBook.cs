@@ -3,9 +3,9 @@
 namespace LMS2.Models.ViewModels
 {
     /// <summary>
-    /// model for input book
+    /// model for request book
     /// </summary>
-    public class InputBook
+    public class RequestBook
     {
         /// <summary>
         /// Title has limit upto 300

@@ -24,17 +24,17 @@ namespace LMS2.Utility
         static public Book GetBookDataFromIdByContext(ApiContext context, int? id)
         {
             if(id == null)
-                throw new Exception("Invalid Id");
+                throw new CustomException("Invalid Id");
 
             var allBooks = context.Books.Where<Book>(b => b.IsDeleted == false);
 
             if (!allBooks.Any())
-                throw new Exception("No Books Data found");
+                throw new CustomException("No Books Data found");
 
             var book = allBooks.Where(b => b.Id == id);
 
             if (book.IsNullOrEmpty())
-                throw new Exception("No book found with this Id");
+                throw new CustomException("No book found with this Id");
 
             return book.ToList()[0];
         }
@@ -48,17 +48,17 @@ namespace LMS2.Utility
         static public Member GetMemberDataFromIdByContext(ApiContext context, int? id)
         {
             if (id == null)
-                throw new Exception("Invalid Id");
+                throw new CustomException("Invalid Id");
 
             var allMembers = context.Members.Where<Member>(b => b.IsDeleted == false);
 
             if (!allMembers.Any())
-                throw new Exception("No Members Data found");
+                throw new CustomException("No Members Data found");
 
             var member = allMembers.Where(b => b.Id == id);
 
             if (member.IsNullOrEmpty())
-                throw new Exception("No member found with this Id");
+                throw new CustomException("No member found with this Id");
 
             return member.ToList()[0];
         }
@@ -149,68 +149,69 @@ namespace LMS2.Utility
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new CustomException(ex.Message);
             }
         }
         /// <summary>
-        /// Convert InputBorrowRecord to BorrowRecords
+        /// Convert RequestBorrowRecord to BorrowRecords
         /// </summary>
-        /// <param name="inputBorrowRecord"></param>
+        /// <param name="requestBorrowRecord"></param>
         /// <param name="book"></param>
         /// <param name="member"></param>
+        /// <param name="penaltyRate"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        static public BorrowRecord ConvertInputBorrowRecordToBorrowRecord(InputBorrowRecord inputBorrowRecord, Book book, Member member)
+        static public BorrowRecord ConvertRequestBorrowRecordToBorrowRecord(RequestBorrowRecord requestBorrowRecord, Book book, Member member, int penaltyRate)
         {
             return new()
             {
-                BookId = inputBorrowRecord.BookId ?? throw new Exception("Invalid Syntax, missing Book Id"),
-                MemberId = inputBorrowRecord.MemberId ?? throw new Exception("Invalid Syntax, missing Member Id"),
-                BorrowDate = inputBorrowRecord.BorrowDate ?? throw new Exception("Invalid Syntax, missing Borrow Date"),
-                DueDate = inputBorrowRecord.DueDate ?? throw new Exception("Invalid Syntax, missing Due Date"),
-                ReturnDate = inputBorrowRecord.ReturnDate ?? null,
-                PenaltyAmount = CalculatePenaltyAmount(inputBorrowRecord.DueDate??DateTime.MinValue, inputBorrowRecord.ReturnDate??DateTime.MinValue),
+                BookId = requestBorrowRecord.BookId ?? throw new CustomException("Invalid Syntax, missing Book Id"),
+                MemberId = requestBorrowRecord.MemberId ?? throw new CustomException("Invalid Syntax, missing Member Id"),
+                BorrowDate = requestBorrowRecord.BorrowDate ?? throw new CustomException("Invalid Syntax, missing Borrow Date"),
+                DueDate = requestBorrowRecord.DueDate ?? throw new CustomException("Invalid Syntax, missing Due Date"),
+                ReturnDate = requestBorrowRecord.ReturnDate ?? null,
+                PenaltyAmount = CalculatePenaltyAmount(requestBorrowRecord.DueDate??DateTime.MinValue, requestBorrowRecord.ReturnDate??DateTime.MinValue, penaltyRate),
                 Book = book,
                 Member = member
             };
         }
         /// <summary>
-        /// Convert InputBook to Book
+        /// Convert RequestBook to Book
         /// </summary>
-        /// <param name="inputBook"></param>
+        /// <param name="requestBook"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        static public Book ConvertInputBookToBook(InputBook inputBook)
+        static public Book ConvertRequestBookToBook(RequestBook requestBook)
         {
             return new()
             {
 
-                Title = inputBook.Title ?? throw new Exception("Invalid Format, Missing Title"),
-                Description = inputBook.Description ?? throw new Exception("Invalid Format, Missing Description"),
-                AuthorName = inputBook.AuthorName ?? throw new Exception("Invalid Format, Missing Author Name"),
-                Genre = inputBook.Genre ?? throw new Exception("Invalid Format, Missing Genre"),
-                PublisherName = inputBook.PublisherName ?? throw new Exception("Invalid Format, Missing Publiser Name"),
-                PubliserDescription = inputBook.PubliserDescription ?? throw new Exception("Invalid Format, Missing Publiser Description"),
-                Price = inputBook.Price ?? throw new Exception("Invalid Format, Missing Price"),
-                CurrentStock = inputBook.CurrentStock ?? throw new Exception("Invalid Format, Missing Current Stock")
+                Title = requestBook.Title ?? throw new CustomException("Invalid Format, Missing Title"),
+                Description = requestBook.Description ?? throw new CustomException("Invalid Format, Missing Description"),
+                AuthorName = requestBook.AuthorName ?? throw new CustomException("Invalid Format, Missing Author Name"),
+                Genre = requestBook.Genre ?? throw new CustomException("Invalid Format, Missing Genre"),
+                PublisherName = requestBook.PublisherName ?? throw new CustomException("Invalid Format, Missing Publiser Name"),
+                PubliserDescription = requestBook.PubliserDescription ?? throw new CustomException("Invalid Format, Missing Publiser Description"),
+                Price = requestBook.Price ?? throw new CustomException("Invalid Format, Missing Price"),
+                CurrentStock = requestBook.CurrentStock ?? throw new CustomException("Invalid Format, Missing Current Stock")
             };
         }
         /// <summary>
-        /// Convert InputMember To Member
+        /// Convert RequestMember To Member
         /// </summary>
-        /// <param name="inputMember"></param>
+        /// <param name="requestMember"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        static public Member ConvertInputMemberToMember(InputMember inputMember)
+        static public Member ConvertRequestMemberToMember(RequestMember requestMember)
         {
             return new()
             {
-                Name = inputMember.Name ?? throw new Exception("Invalid Format, Missing Name"),
-                Email = inputMember.Email ?? throw new Exception("Invalid Format, Missing Email"),
-                MobileNumber = inputMember.MobileNumber ?? throw new Exception("Invalid Format, Missing Mobile Number"),
-                Address = inputMember.Address,
-                City = inputMember.City,
-                Pincode = inputMember.Pincode
+                Name = requestMember.Name ?? throw new CustomException("Invalid Format, Missing Name"),
+                Email = requestMember.Email ?? throw new CustomException("Invalid Format, Missing Email"),
+                MobileNumber = requestMember.MobileNumber ?? throw new CustomException("Invalid Format, Missing Mobile Number"),
+                Address = requestMember.Address,
+                City = requestMember.City,
+                Pincode = requestMember.Pincode
             };
         }
         /// <summary>
@@ -257,7 +258,7 @@ namespace LMS2.Utility
         /// Filter Books By Search Params
         /// </summary>
        
-        static public IQueryable<Book> FilterBooksBySearchParams(ApiContext _context, InputBook book, int pageNumber, int pageSize)
+        static public IQueryable<Book> FilterBooksBySearchParams(ApiContext _context, RequestBook book, int pageNumber, int pageSize)
         {
             var whereConditonsString = "";
             foreach (var property in book.GetType().GetProperties())
@@ -287,7 +288,7 @@ namespace LMS2.Utility
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        static public IQueryable<Member> FilterMembersBySearchParams(ApiContext _context, InputMember member, int pageNumber, int pageSize)
+        static public IQueryable<Member> FilterMembersBySearchParams(ApiContext _context, RequestMember member, int pageNumber, int pageSize)
         {
             var whereConditonsString = "";
             foreach (var property in member.GetType().GetProperties())
@@ -313,8 +314,9 @@ namespace LMS2.Utility
         /// </summary>
         /// <param name="DueDate"></param>
         /// <param name="ReturnDate"></param>
+        /// <param name="penaltyRate"></param>
         /// <returns></returns>
-        static public int CalculatePenaltyAmount(DateTime DueDate, DateTime ReturnDate)
+        static public int CalculatePenaltyAmount(DateTime DueDate, DateTime ReturnDate, int penaltyRate)
         {
             if(ReturnDate == DateTime.MinValue || DueDate == DateTime.MinValue)
             {
@@ -323,7 +325,7 @@ namespace LMS2.Utility
 
             if (DateTime.Compare(ReturnDate, DueDate) >0)
             {
-                return ReturnDate.Subtract(DueDate).Days * 5;
+                return ReturnDate.Subtract(DueDate).Days * penaltyRate;
             }
             return 0;
         }

@@ -19,11 +19,11 @@ namespace LMS2.Repository
         /// <summary>
         /// Add new Book 
         /// </summary>
-        void AddBook(InputBook? book); 
+        void AddBook(RequestBook? book); 
         /// <summary>
         /// Update Book by ID
         /// </summary>
-        Book UpdateBook(int id, InputBook book);
+        Book UpdateBook(int id, RequestBook book);
         /// <summary>
         /// Delete Book Data
         /// </summary>
@@ -31,7 +31,7 @@ namespace LMS2.Repository
         /// <summary>
         /// Search Book data
         /// </summary>
-        IQueryable<Book> GetBooksBySearchParams(int pageNumber, int pageSize, InputBook book);
+        IQueryable<Book> GetBooksBySearchParams(int pageNumber, int pageSize, RequestBook book);
         /// <summary>
         /// Save Book data in DB
         /// </summary>

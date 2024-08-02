@@ -2,7 +2,12 @@
 using LMS2.Repository;
 using LMS2.Utility;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Runtime.Intrinsics.X86;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace LMS2.Controllers
 {
@@ -11,7 +16,7 @@ namespace LMS2.Controllers
     /// <summary>
     /// Book Routes
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/books")]
     [ApiController]
     public class BooksController : ControllerBase
     {
@@ -76,7 +81,7 @@ namespace LMS2.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult AddBook(InputBook? book)
+        public JsonResult AddBook(RequestBook? book)
         {
             try
             {
@@ -120,7 +125,7 @@ namespace LMS2.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public JsonResult PatchBook(int id, InputBook book)
+        public JsonResult PatchBook(int id, RequestBook book)
         {           
             try
             {
@@ -141,19 +146,19 @@ namespace LMS2.Controllers
         /// <summary>
         /// Search book by Title, Genre, AuthorName, PublicationName
         /// </summary>
-        /// <param name="inputBook"></param>
+        /// <param name="requestBook"></param>
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet("search")]
-        public JsonResult GetBookBySearch([FromQuery]InputBook inputBook, int pageNumber = 1, int pageSize = int.MaxValue) {
+        public JsonResult GetBookBySearch([FromQuery]RequestBook requestBook, int pageNumber = 1, int pageSize = int.MaxValue) {
             try
             {
-                ValidationUtility.ObjectIsNullOrEmpty(inputBook);
+                ValidationUtility.ObjectIsNullOrEmpty(requestBook);
 
                 ValidationUtility.PageInfoValidator(pageNumber, pageSize);
 
-                var res = _booksRepository.GetBooksBySearchParams( pageNumber, pageSize, inputBook);
+                var res = _booksRepository.GetBooksBySearchParams( pageNumber, pageSize, requestBook);
                 _booksRepository.Save();
                 return new JsonResult(res);
             }
