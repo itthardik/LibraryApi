@@ -146,7 +146,7 @@ namespace LMS2.Utility
                     finalQuery = finalQuery.Union(query.Where(record => record.Member != null && record.Member.Pincode == searchParams.Pincode));
                 }
 
-                return finalQuery;
+                return finalQuery.OrderByDescending(b => b.CreatedAt); ;
             }
             catch (Exception ex)
             {

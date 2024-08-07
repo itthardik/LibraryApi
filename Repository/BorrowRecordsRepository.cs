@@ -52,7 +52,8 @@ namespace LMS2.Repository
             var allBooks = _context.BorrowRecords
                                     .Where<BorrowRecord>(b => b.IsDeleted == false)
                                     .Include(br => br.Member)
-                                    .Include(br => br.Book);
+                                    .Include(br => br.Book)
+                                    .OrderByDescending(b => b.CreatedAt);
             if (!allBooks.Any())
                 throw new CustomException("No Books found");
 

@@ -37,7 +37,8 @@ namespace LMS2.Repository
         public IQueryable<Member> GetAllMembers()
         {
             var allMembers = _context.Members
-                                .Where<Member>(m => m.IsDeleted == false);
+                                .Where<Member>(m => m.IsDeleted == false)
+                                .OrderByDescending(b => b.CreatedAt);
             if (!allMembers.Any())
                 throw new CustomException("No Members found");
 

@@ -42,7 +42,9 @@ namespace LMS2.Repository
         public IQueryable<Book> GetAllBooks()
         {
             var allBooks = _context.Books
-                                .Where<Book>(b => b.IsDeleted == false);
+                                .Where<Book>(b => b.IsDeleted == false)
+                                .OrderByDescending(b => b.CreatedAt);
+
 
             if (!allBooks.Any())
                 throw new CustomException("No Books found");
@@ -60,8 +62,7 @@ namespace LMS2.Repository
         public (IQueryable<Book>,int) GetAllBooksByPagination(int pageNumber, int pageSize)
         {
 
-            var allBooks = _context.Books
-                                .Where<Book>(b => b.IsDeleted == false);
+            var allBooks = GetAllBooks();
 
             var maxPages = (int)Math.Ceiling((decimal)(allBooks.Count()) / pageSize);
 
@@ -71,9 +72,6 @@ namespace LMS2.Repository
             //Thread.Sleep(1000);
             //throw new Exception("a");
             //throw new CustomException("No Books found");
-
-            if (!allBooks.Any())
-                throw new CustomException("No Books found");
 
             return (booksByPagination, maxPages); 
         }
