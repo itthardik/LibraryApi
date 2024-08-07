@@ -45,12 +45,13 @@ namespace LMS2.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult Get(int pageNumber, int pageSize)
         {
             try
             {
-                var res = _membersRepository.GetAllMembers();
-                return new JsonResult(new { data = res.ToList() });
+                ValidationUtility.PageInfoValidator(pageNumber, pageSize);
+                var res = _membersRepository.GetAllMemberByPagination(pageNumber, pageSize);
+                return res;
             }
             catch (Exception ex)
             {
@@ -159,7 +160,7 @@ namespace LMS2.Controllers
         /// Search member by Name, Email, MobileNumber, City and Pincode
         /// </summary>
         [HttpGet("search")]
-        public JsonResult GetMemberBySearch([FromQuery]RequestMember requestMember, int pageNumber = 1, int pageSize = int.MaxValue)
+        public JsonResult GetMemberBySearch([FromQuery]SearchMember requestMember, int pageNumber = 1, int pageSize = int.MaxValue)
         {
             try
             {
@@ -168,8 +169,8 @@ namespace LMS2.Controllers
                 ValidationUtility.PageInfoValidator(pageNumber, pageSize);
 
                 var res = _membersRepository.GetMembersBySearchParams(pageNumber, pageSize, requestMember);
-                _membersRepository.Save();
-                return new JsonResult(res);
+                
+                return res;
             }
             catch (Exception ex)
             {

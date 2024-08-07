@@ -301,31 +301,43 @@ namespace LMS2.Utility
         /// <summary>
         /// Filter Members By Search Params
         /// </summary>
-        /// <param name="_context"></param>
+        /// <param name="allMembers"></param>
         /// <param name="member"></param>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
         /// <returns></returns>
-        static public IQueryable<Member> FilterMembersBySearchParams(ApiContext _context, RequestMember member, int pageNumber, int pageSize)
+        static public IQueryable<Member> FilterMembersBySearchParams(IQueryable<Member> allMembers, SearchMember member)
         {
-            var whereConditonsString = "";
-            foreach (var property in member.GetType().GetProperties())
+            try
             {
-                var propertyValue = property.GetValue(member);
-                if (propertyValue != null)
-                {
-                    if (whereConditonsString != "")
-                        whereConditonsString += " OR ";
-                    whereConditonsString += (property.Name + " LIKE '%" + propertyValue + "%'");
-                }
-            }
+                var query = allMembers.AsQueryable();
 
-            return _context.Members.FromSqlRaw("EXEC SearchTableByParams @tableName, @whereCondition, @pageNumber, @pageSize",
-                                                    new SqlParameter("@tableName", "Members"),
-                                                    new SqlParameter("@whereCondition", whereConditonsString),
-                                                    new SqlParameter("@pageNumber", pageNumber),
-                                                    new SqlParameter("@pageSize", pageSize)
-                                                    );
+                IQueryable<Member> finalQuery = query.Where(record => false);
+
+                if (member.Name != null)
+                {
+                    finalQuery = finalQuery.Union(query.Where(record => (record.Name ?? "").Contains(member.Name)));
+                }
+
+                if (member.Email != null)
+                {
+                    finalQuery = finalQuery.Union(query.Where(record => (record.Email??"").Contains(member.Email)));
+                }
+
+                if (member.MobileNumber != null)
+                {
+                    finalQuery = finalQuery.Union(query.Where(record => ((record.MobileNumber??0).ToString()).Contains(member.MobileNumber)));
+                }
+
+                if (member.Pincode != null)
+                {
+                    finalQuery = finalQuery.Union(query.Where(record => (record.Pincode?? "").Contains(member.Pincode)));
+                }
+
+                return finalQuery.OrderByDescending((m) =>  m.CreatedAt);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message);
+            }
         }
         /// <summary>
         /// Calculate penalty amount

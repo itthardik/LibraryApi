@@ -2,6 +2,7 @@
 using LMS2.Models;
 using LMS2.Models.ViewModels;
 using LMS2.Utility;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LMS2.Repository
@@ -62,7 +63,22 @@ namespace LMS2.Repository
 
             return members[0];
         }
-        
+        /// <summary>
+        /// Get req for all books with pagination
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonResult GetAllMemberByPagination(int pageNumber, int pageSize)
+        {
+            var allMembers = GetAllMembers();
+
+            var maxPages = (int)Math.Ceiling((decimal)(allMembers.Count()) / pageSize);
+
+            var booksByPagination = allMembers.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            return new JsonResult( new{ maxPages, data = booksByPagination });
+        }
         
         /// <summary>
         /// Add new member
@@ -122,16 +138,18 @@ namespace LMS2.Repository
         /// <param name="newMember"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IQueryable<Member> GetMembersBySearchParams(int pageNumber, int pageSize, RequestMember newMember)
+        public JsonResult GetMembersBySearchParams(int pageNumber, int pageSize, SearchMember newMember)
         {
-            var result = CustomUtility.FilterMembersBySearchParams ( _context, newMember, pageNumber, pageSize);
+            var result = CustomUtility.FilterMembersBySearchParams ( GetAllMembers(), newMember);
 
             if (result.IsNullOrEmpty())
             {
                 throw new CustomException("No Members Found");
             }
-            
-            return result;
+            var maxPages = (int)Math.Ceiling((decimal)(result.Count()) / pageSize);
+
+            var finalData = result.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            return new JsonResult(new {maxPages, data = finalData});
         }
 
 
