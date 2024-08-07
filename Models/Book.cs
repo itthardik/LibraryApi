@@ -46,7 +46,7 @@ namespace LMS2.Models
         /// Publisher Desc is required
         /// </summary>
         [Required]
-        public string? PubliserDescription { get; set; }
+        public string? PublisherDescription { get; set; }
         /// <summary>
         /// Price is required and cannot be negative
         /// </summary>

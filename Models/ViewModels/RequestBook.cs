@@ -33,7 +33,7 @@ namespace LMS2.Models.ViewModels
         /// <summary>
         /// Publisher Desc 
         /// </summary>
-        public string? PubliserDescription { get; set; }
+        public string? PublisherDescription { get; set; }
         /// <summary>
         /// Price cannot be negative
         /// </summary>

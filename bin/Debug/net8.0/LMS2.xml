@@ -16,7 +16,7 @@
             <param name="booksRepository"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="M:LMS2.Controllers.BooksController.Get">
+        <member name="M:LMS2.Controllers.BooksController.Get(System.Int32,System.Int32)">
             <summary>
             Get All Books Data
             </summary>
@@ -218,21 +218,6 @@
             Borrow Record DBset
             </summary>
         </member>
-        <member name="T:LMS2.EmailSender">
-            <summary>
-            Email Sender class
-            </summary>
-        </member>
-        <member name="M:LMS2.EmailSender.#ctor">
-            <summary>
-            Email sender constructor
-            </summary>
-        </member>
-        <member name="M:LMS2.EmailSender.SendEmail(LMS2.Models.BorrowRecord)">
-            <summary>
-            Send Email message
-            </summary>
-        </member>
         <member name="T:LMS2.Migrations.InitialMigration">
             <inheritdoc />
         </member>
@@ -365,6 +350,18 @@
         <member name="M:LMS2.Migrations.AddedIsPenaltyPaidInBorrowRecords.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:LMS2.Migrations.fixedPublisherDescription">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.fixedPublisherDescription.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.fixedPublisherDescription.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:LMS2.Migrations.fixedPublisherDescription.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:LMS2.Models.Book">
             <summary>
             Book Model
@@ -400,7 +397,7 @@
             Publisher Name is required and has limit upto 300
             </summary>
         </member>
-        <member name="P:LMS2.Models.Book.PubliserDescription">
+        <member name="P:LMS2.Models.Book.PublisherDescription">
             <summary>
             Publisher Desc is required
             </summary>
@@ -570,7 +567,7 @@
             Publisher Name has limit upto 300
             </summary>
         </member>
-        <member name="P:LMS2.Models.ViewModels.RequestBook.PubliserDescription">
+        <member name="P:LMS2.Models.ViewModels.RequestBook.PublisherDescription">
             <summary>
             Publisher Desc 
             </summary>
@@ -759,6 +756,15 @@
             Get All Books
             </summary>
             <returns></returns>
+            <exception cref="T:LMS2.Utility.CustomException"></exception>
+        </member>
+        <member name="M:LMS2.Repository.BooksRepository.GetAllBooksByPagination(System.Int32,System.Int32)">
+            <summary>
+            Get All Books with pagination
+            </summary>
+            <returns></returns>
+            <param name="pageNumber"></param>
+            <param name="pageSize"></param>
         </member>
         <member name="M:LMS2.Repository.BooksRepository.GetBookById(System.Int32)">
             <summary>
@@ -889,10 +895,11 @@
             Interface of Book Repo
             </summary>
         </member>
-        <member name="M:LMS2.Repository.IBooksRepository.GetAllBooks">
+        <member name="M:LMS2.Repository.IBooksRepository.GetAllBooksByPagination(System.Int32,System.Int32)">
             <summary>
-            Get all book data
+            Get all book data by pageNumber and pageSize
             </summary>
+            <returns></returns>
         </member>
         <member name="M:LMS2.Repository.IBooksRepository.GetBookById(System.Int32)">
             <summary>
@@ -1177,7 +1184,7 @@
             <param name="Obj1"></param>
             <param name="Obj2"></param>
         </member>
-        <member name="M:LMS2.Utility.CustomUtility.FilterBooksBySearchParams(LMS2.DataContext.ApiContext,LMS2.Models.ViewModels.RequestBook,System.Int32,System.Int32)">
+        <member name="M:LMS2.Utility.CustomUtility.FilterBooksBySearchParams(System.Linq.IQueryable{LMS2.Models.Book},LMS2.Models.ViewModels.RequestBook,System.Int32,System.Int32)">
             <summary>
             Filter Books By Search Params
             </summary>
@@ -1200,6 +1207,21 @@
             <param name="ReturnDate"></param>
             <param name="penaltyRate"></param>
             <returns></returns>
+        </member>
+        <member name="T:LMS2.Utility.EmailSender">
+            <summary>
+            Email Sender class
+            </summary>
+        </member>
+        <member name="M:LMS2.Utility.EmailSender.#ctor">
+            <summary>
+            Email sender constructor
+            </summary>
+        </member>
+        <member name="M:LMS2.Utility.EmailSender.SendEmail(LMS2.Models.BorrowRecord)">
+            <summary>
+            Send Email message
+            </summary>
         </member>
         <member name="T:LMS2.Utility.Logger">
             <summary>

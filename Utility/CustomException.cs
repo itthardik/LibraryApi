@@ -9,6 +9,5 @@
     /// <param name="message"></param>
     public class CustomException(string message) : Exception(message)
     {
-
     }
 }

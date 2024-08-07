@@ -9,9 +9,10 @@ namespace LMS2.Repository
     public interface IBooksRepository
     {
         /// <summary>
-        /// Get all book data
+        /// Get all book data by pageNumber and pageSize
         /// </summary>
-        IQueryable<Book> GetAllBooks();
+        /// <returns></returns>
+        (IQueryable<Book>, int) GetAllBooksByPagination(int pageNumber, int pageSize);
         /// <summary>
         /// Get book data by ID
         /// </summary>
@@ -31,7 +32,7 @@ namespace LMS2.Repository
         /// <summary>
         /// Search Book data
         /// </summary>
-        IQueryable<Book> GetBooksBySearchParams(int pageNumber, int pageSize, RequestBook book);
+        (IQueryable<Book>, int) GetBooksBySearchParams(int pageNumber, int pageSize, RequestBook book);
         /// <summary>
         /// Save Book data in DB
         /// </summary>

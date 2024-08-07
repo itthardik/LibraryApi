@@ -1,11 +1,11 @@
 ﻿using LMS2.Models;
 using System.Net;
 using System.Net.Mail;
-namespace LMS2
+namespace LMS2.Utility
 {
-    
-    
-    
+
+
+
     /// <summary>
     /// Email Sender class
     /// </summary>
@@ -15,25 +15,26 @@ namespace LMS2
         private readonly int _Port;
         private readonly string _SMTP_USERNAME;
         private readonly string _SMTP_PASSWORD;
-        
-        
-        
+
+
+
         /// <summary>
         /// Email sender constructor
         /// </summary>
-        public EmailSender() {
+        public EmailSender()
+        {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            _Host = configuration.GetValue<string>("AppConstraint:Host")??"";
+            _Host = configuration.GetValue<string>("AppConstraint:Host") ?? "";
             _Port = configuration.GetValue<int>("AppConstraint:Port");
-            _SMTP_USERNAME = configuration.GetValue<string>("AppConstraint:SMTP_USERNAME")??"";
-            _SMTP_PASSWORD = configuration.GetValue<string>("AppConstraint:SMTP_PASSWORD")??"";
+            _SMTP_USERNAME = configuration.GetValue<string>("AppConstraint:SMTP_USERNAME") ?? "";
+            _SMTP_PASSWORD = configuration.GetValue<string>("AppConstraint:SMTP_PASSWORD") ?? "";
         }
-        
-        
-        
+
+
+
         /// <summary>
         /// Send Email message
         /// </summary>

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Runtime.Intrinsics.X86;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Cors;
 
 namespace LMS2.Controllers
 {
@@ -34,23 +35,25 @@ namespace LMS2.Controllers
             else
                 throw new ArgumentNullException(nameof(booksRepository));
         }
-        
-        
+
+
         /// <summary>
         /// Get All Books Data
         /// </summary>
         /// <returns></returns>
+        //[EnableCors("AllowLocalhost")]
         [HttpGet]
-        public JsonResult Get() {
+        public JsonResult Get(int pageNumber, int pageSize) {
             try
             {
-                var res = _booksRepository.GetAllBooks();
+                ValidationUtility.PageInfoValidator(pageNumber, pageSize);
+                var res = _booksRepository.GetAllBooksByPagination(pageNumber, pageSize);
                
-                return new JsonResult(new { data = res });
+                return new JsonResult(new { maxPages=res.Item2, data = res.Item1 });
             }
             catch (Exception ex) { 
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message, type= ex.GetType().ToString() });
             }
         }
         
@@ -70,7 +73,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
         
@@ -92,7 +95,7 @@ namespace LMS2.Controllers
             }
             catch (Exception ex) {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message, type= ex.GetType().ToString() });
             }
         }
         
@@ -113,7 +116,7 @@ namespace LMS2.Controllers
             }
             catch (Exception ex) {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message, type= ex.GetType().ToString() });
             }
         }
         
@@ -137,7 +140,7 @@ namespace LMS2.Controllers
             }
             catch (Exception ex) {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message, type= ex.GetType().ToString() });
             }
         }
 
@@ -160,12 +163,12 @@ namespace LMS2.Controllers
 
                 var res = _booksRepository.GetBooksBySearchParams( pageNumber, pageSize, requestBook);
                 _booksRepository.Save();
-                return new JsonResult(res);
+                return new JsonResult(new {maxPages=res.Item2, data=res.Item1});
             }
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message, type= ex.GetType().ToString() });
             }
         }
     }

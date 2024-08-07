@@ -34,22 +34,48 @@ namespace LMS2.Repository
             else
                 throw new ArgumentNullException(nameof(context));
         }
-
-
-
         /// <summary>
         /// Get All Books
         /// </summary>
         /// <returns></returns>
+        /// <exception cref="CustomException"></exception>
         public IQueryable<Book> GetAllBooks()
         {
             var allBooks = _context.Books
                                 .Where<Book>(b => b.IsDeleted == false);
-                                
+
             if (!allBooks.Any())
                 throw new CustomException("No Books found");
 
-            return allBooks; 
+            return allBooks;
+        }
+
+
+        /// <summary>
+        /// Get All Books with pagination
+        /// </summary>
+        /// <returns></returns>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        public (IQueryable<Book>,int) GetAllBooksByPagination(int pageNumber, int pageSize)
+        {
+
+            var allBooks = _context.Books
+                                .Where<Book>(b => b.IsDeleted == false);
+
+            var maxPages = (int)Math.Ceiling((decimal)(allBooks.Count()) / pageSize);
+
+            var booksByPagination = allBooks.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+
+            //Thread.Sleep(1000);
+            //throw new Exception("a");
+            //throw new CustomException("No Books found");
+
+            if (!allBooks.Any())
+                throw new CustomException("No Books found");
+
+            return (booksByPagination, maxPages); 
         }
         
         
@@ -131,12 +157,12 @@ namespace LMS2.Repository
         /// <param name="pageSize"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IQueryable<Book> GetBooksBySearchParams( int pageNumber, int pageSize, RequestBook newBook)
+        public (IQueryable<Book>,int) GetBooksBySearchParams( int pageNumber, int pageSize, RequestBook newBook)
             {
 
-            var result = CustomUtility.FilterBooksBySearchParams( _context, newBook, pageNumber, pageSize);
+            var result = CustomUtility.FilterBooksBySearchParams( GetAllBooks(), newBook, pageNumber, pageSize);
             
-            if (result.IsNullOrEmpty())
+            if (result.Item1.IsNullOrEmpty())
                 throw new CustomException("No Books Found");
             
             return result;

@@ -47,7 +47,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message });
             }
         }
         
@@ -68,7 +68,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message });
             }
         }
         
@@ -91,7 +91,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message });
             }
         }
         
@@ -113,7 +113,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message });
             }
         }
         
@@ -138,7 +138,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message });
             }
         }
 
@@ -167,7 +167,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message });
             }
 
         }
@@ -187,7 +187,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message });
             }
         }
         /// <summary>
@@ -214,7 +214,7 @@ namespace LMS2.Controllers
             }
             catch (Exception ex) { 
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message });
             }
         }
         /// <summary>
@@ -233,7 +233,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(ex.Message);
+                return new JsonResult(new { error = ex.Message });
             }
         }
     }

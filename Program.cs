@@ -31,7 +31,14 @@ namespace LMS2
             builder.Services.AddScoped<IMembersRepository, MembersRepository>();
             builder.Services.AddScoped<IBorrowRecordsRepository, BorrowRecordsRepository>();
 
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost",
+                    builder => builder.WithOrigins("http://localhost:3000")
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
+            
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -59,6 +66,7 @@ namespace LMS2
 
             app.UseAuthorization();
 
+            app.UseCors("AllowLocalhost");
 
             app.MapControllers();
 

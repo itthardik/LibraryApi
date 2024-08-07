@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
 
 namespace LMS2.Utility
 {
@@ -191,7 +192,7 @@ namespace LMS2.Utility
                 AuthorName = requestBook.AuthorName ?? throw new CustomException("Invalid Format, Missing Author Name"),
                 Genre = requestBook.Genre ?? throw new CustomException("Invalid Format, Missing Genre"),
                 PublisherName = requestBook.PublisherName ?? throw new CustomException("Invalid Format, Missing Publiser Name"),
-                PubliserDescription = requestBook.PubliserDescription ?? throw new CustomException("Invalid Format, Missing Publiser Description"),
+                PublisherDescription = requestBook.PublisherDescription ?? throw new CustomException("Invalid Format, Missing Publisher Description"),
                 Price = requestBook.Price ?? throw new CustomException("Invalid Format, Missing Price"),
                 CurrentStock = requestBook.CurrentStock ?? throw new CustomException("Invalid Format, Missing Current Stock")
             };
@@ -257,27 +258,44 @@ namespace LMS2.Utility
         /// <summary>
         /// Filter Books By Search Params
         /// </summary>
-       
-        static public IQueryable<Book> FilterBooksBySearchParams(ApiContext _context, RequestBook book, int pageNumber, int pageSize)
+
+        static public (IQueryable<Book>, int) FilterBooksBySearchParams(IQueryable<Book> allBooks, RequestBook book, int pageNumber, int pageSize)
         {
-            var whereConditonsString = "";
-            foreach (var property in book.GetType().GetProperties())
+            try { 
+            var query = allBooks.AsQueryable();
+
+            IQueryable<Book> finalQuery = query.Where(record => false);
+
+            if (book.Title != null)
             {
-                var propertyValue = property.GetValue(book);
-                if (propertyValue != null)
-                {
-                    if (whereConditonsString != "")
-                        whereConditonsString += " OR ";
-                    whereConditonsString += (property.Name+" LIKE '%"+propertyValue+"%'");
-                }
+                finalQuery = finalQuery.Union(query.Where(record => (record.Title??"").Contains(book.Title)));
             }
 
-            return _context.Books.FromSqlRaw("EXEC SearchTableByParams @tableName, @whereCondition, @pageNumber, @pageSize",
-                                                    new SqlParameter("@tableName", "Books"),
-                                                    new SqlParameter("@whereCondition", whereConditonsString),
-                                                    new SqlParameter("@pageNumber", pageNumber),
-                                                    new SqlParameter("@pageSize", pageSize)
-                                                    );
+            if (book.AuthorName != null)
+            {
+                finalQuery = finalQuery.Union(query.Where(record => (record.AuthorName??"").Contains(book.AuthorName)));
+            }
+
+            if (book.Genre != null)
+            {
+                finalQuery = finalQuery.Union(query.Where(record => (record.Genre??"").Contains(book.Genre)));
+            }
+
+            if (book.PublisherName != null)
+            {
+                finalQuery = finalQuery.Union(query.Where(record => (record.PublisherName??"").Contains(book.PublisherName)));
+            }
+
+            var maxPages = (int)Math.Ceiling((decimal )(finalQuery.Count()) / pageSize);
+
+            var finalData = finalQuery.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+
+            return (finalData, maxPages);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message);
+            }
         }
         
         /// <summary>
