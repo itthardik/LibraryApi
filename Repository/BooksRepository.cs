@@ -68,11 +68,6 @@ namespace LMS2.Repository
 
             var booksByPagination = allBooks.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-
-            //Thread.Sleep(1000);
-            //throw new Exception("a");
-            //throw new CustomException("No Books found");
-
             return (booksByPagination, maxPages); 
         }
         
