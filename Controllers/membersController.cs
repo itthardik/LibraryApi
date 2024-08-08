@@ -105,14 +105,14 @@ namespace LMS2.Controllers
                 return new JsonResult(new { error = ex.Message });
             }
         }
-        
-        
+
+
         /// <summary>
         /// Delete Existing Member by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public JsonResult DeleteMember(int id)
         {
             try
