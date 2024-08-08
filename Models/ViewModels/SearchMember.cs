@@ -8,12 +8,12 @@ namespace LMS2.Models.ViewModels
     public class SearchMember
     {
         /// <summary>
-        /// Name and has limit upto 300
+        /// Name
         /// </summary>
         [StringLength(100)]
         public string? Name { get; set; }
         /// <summary>
-        /// Email and has limit upto 100 and regx to validate
+        /// Email
         /// </summary>
         [StringLength(100)]
         public string? Email { get; set; }
@@ -23,7 +23,7 @@ namespace LMS2.Models.ViewModels
         [StringLength(100)]
         public string? MobileNumber { get; set; }
         /// <summary>
-        /// Pincode and has regx to validate
+        /// Pincode 
         /// </summary>
         [StringLength(100)]
         public string? Pincode { get; set; }

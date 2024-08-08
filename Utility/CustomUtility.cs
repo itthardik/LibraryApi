@@ -301,38 +301,19 @@ namespace LMS2.Utility
         /// <summary>
         /// Filter Members By Search Params
         /// </summary>
-        /// <param name="allMembers"></param>
+        /// <param name="_context"></param>
         /// <param name="member"></param>
         /// <returns></returns>
-        static public IQueryable<Member> FilterMembersBySearchParams(IQueryable<Member> allMembers, SearchMember member)
+        static public IEnumerable<Member> FilterMembersBySearchParams(ApiContext _context, SearchMember member)
         {
             try
             {
-                var query = allMembers.AsQueryable();
-
-                IQueryable<Member> finalQuery = query.Where(record => false);
-
-                if (member.Name != null)
-                {
-                    finalQuery = finalQuery.Union(query.Where(record => (record.Name ?? "").Contains(member.Name)));
-                }
-
-                if (member.Email != null)
-                {
-                    finalQuery = finalQuery.Union(query.Where(record => (record.Email??"").Contains(member.Email)));
-                }
-
-                if (member.MobileNumber != null)
-                {
-                    finalQuery = finalQuery.Union(query.Where(record => ((record.MobileNumber??0).ToString()).Contains(member.MobileNumber)));
-                }
-
-                if (member.Pincode != null)
-                {
-                    finalQuery = finalQuery.Union(query.Where(record => (record.Pincode?? "").Contains(member.Pincode)));
-                }
-
-                return finalQuery.OrderByDescending((m) =>  m.CreatedAt);
+                return _context.Members.FromSqlRaw<Member>("EXEC SearchMembersByParam @name, @email, @mobileNumber, @pincode;",
+                                                     new SqlParameter("@name", member.Name??(object)DBNull.Value),
+                                                     new SqlParameter("@email", member.Email ?? (object)DBNull.Value),
+                                                     new SqlParameter("@mobileNumber", member.MobileNumber ?? (object)DBNull.Value),
+                                                     new SqlParameter("@pincode", member.Pincode ?? (object)DBNull.Value)
+                                                     ).AsEnumerable<Member>();
             }
             catch (Exception ex)
             {

@@ -140,7 +140,7 @@ namespace LMS2.Repository
         /// <exception cref="Exception"></exception>
         public JsonResult GetMembersBySearchParams(int pageNumber, int pageSize, SearchMember newMember)
         {
-            var result = CustomUtility.FilterMembersBySearchParams ( GetAllMembers(), newMember);
+            var result = CustomUtility.FilterMembersBySearchParams ( _context, newMember);
 
             if (result.IsNullOrEmpty())
             {
