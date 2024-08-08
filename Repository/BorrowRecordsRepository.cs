@@ -94,7 +94,9 @@ namespace LMS2.Repository
             if (requestBorrowRecord == null)
                 throw new CustomException("Invalid Format");
 
-            ValidationUtility.IsBorrowRecordAlreadyExist(GetAllBorrowRecords(), requestBorrowRecord);
+            var allBorrowRecord = _context.BorrowRecords.Where<BorrowRecord>(b => b.IsDeleted == false);
+
+            ValidationUtility.IsBorrowRecordAlreadyExist(allBorrowRecord, requestBorrowRecord);
 
             ValidationUtility.CheckValidBorrowDate(requestBorrowRecord);
 
@@ -222,7 +224,7 @@ namespace LMS2.Repository
                                     .ToList();
 
             if (allBorrowRecordsByMemberId.IsNullOrEmpty())
-                throw new CustomException("No member found with this Id");
+                throw new CustomException("No Borrow Records found with this Member Id");
 
             var sum = 0;
             foreach(var  b in allBorrowRecordsByMemberId)
