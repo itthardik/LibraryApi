@@ -52,7 +52,7 @@
         /// <summary>
         /// Mobile Number
         /// </summary>
-        public int? MobileNumber { get; set; }
+        public string? MobileNumber { get; set; }
         /// <summary>
         /// City
         /// </summary>
