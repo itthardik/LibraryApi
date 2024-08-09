@@ -1,19 +1,14 @@
-﻿using LMS2.DataContext;
-using LMS2.Models;
-using LMS2.Models.ViewModels;
+﻿using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 using LMS2.Repository;
 using LMS2.Utility;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Text.RegularExpressions;
 
 namespace LMS2.Controllers
 {
-    
-    
-    
+
+
+
     /// <summary>
     /// Member Routes
     /// </summary>
@@ -56,7 +51,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
 
@@ -78,7 +73,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
         
@@ -102,7 +97,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
 
@@ -124,7 +119,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
         
@@ -136,7 +131,7 @@ namespace LMS2.Controllers
         /// <param name="member"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public JsonResult PatchMember(int id,RequestMember? member)
+        public JsonResult PatchMember(int id,RequestMember member)
         {
             try
             {
@@ -149,7 +144,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
 
@@ -175,7 +170,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
     }

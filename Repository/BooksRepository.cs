@@ -1,6 +1,7 @@
 ﻿using LMS2.DataContext;
 using LMS2.Models;
-using LMS2.Models.ViewModels;
+using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 using LMS2.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -13,8 +14,8 @@ using System.Text.Json.Serialization;
 
 namespace LMS2.Repository
 {
-    
-    
+
+
     /// <summary>
     /// Book Repo
     /// </summary>
@@ -39,7 +40,7 @@ namespace LMS2.Repository
         /// </summary>
         /// <returns></returns>
         /// <exception cref="CustomException"></exception>
-        public IQueryable<Book> GetAllBooks()
+        private IQueryable<Book> GetAllBooks()
         {
             var allBooks = _context.Books
                                 .Where<Book>(b => b.IsDeleted == false)
@@ -59,7 +60,7 @@ namespace LMS2.Repository
         /// <returns></returns>
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
-        public (IQueryable<Book>,int) GetAllBooksByPagination(int pageNumber, int pageSize)
+        public JsonResult GetAllBooksByPagination(int pageNumber, int pageSize)
         {
 
             var allBooks = GetAllBooks();
@@ -68,7 +69,7 @@ namespace LMS2.Repository
 
             var booksByPagination = allBooks.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-            return (booksByPagination, maxPages); 
+            return new JsonResult(new { maxPages, data = booksByPagination });
         }
         
         
@@ -150,15 +151,18 @@ namespace LMS2.Repository
         /// <param name="pageSize"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public (IQueryable<Book>,int) GetBooksBySearchParams( int pageNumber, int pageSize, RequestBook newBook)
+        public JsonResult GetBooksBySearchParams( int pageNumber, int pageSize, SearchBook newBook)
             {
 
-            var result = CustomUtility.FilterBooksBySearchParams( GetAllBooks(), newBook, pageNumber, pageSize);
+            var result = CustomUtility.FilterBooksBySearchParams( _context, newBook);
             
-            if (result.Item1.IsNullOrEmpty())
+            if (result.IsNullOrEmpty())
                 throw new CustomException("No Books Found");
-            
-            return result;
+
+            var maxPages = (int)Math.Ceiling((decimal)(result.Count()) / pageSize);
+
+            var finalData = result.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            return new JsonResult(new { maxPages, data = finalData });
         }
         
         

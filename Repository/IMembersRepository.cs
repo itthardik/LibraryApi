@@ -1,5 +1,6 @@
 ﻿using LMS2.Models;
-using LMS2.Models.ViewModels;
+using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS2.Repository
@@ -9,11 +10,6 @@ namespace LMS2.Repository
     /// </summary>
     public interface IMembersRepository
     {
-        /// <summary>
-        /// Get all Members
-        /// </summary>
-        /// <returns></returns>
-        IQueryable<Member> GetAllMembers();
         /// <summary>
         /// get all member in json with pagination
         /// </summary>
@@ -38,7 +34,7 @@ namespace LMS2.Repository
         /// <param name="id"></param>
         /// <param name="member"></param>
         /// <returns></returns>
-        Member UpdateMember(int id,RequestMember? member);
+        Member UpdateMember(int id,RequestMember member);
         /// <summary>
         /// delete member
         /// </summary>

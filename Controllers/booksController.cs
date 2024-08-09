@@ -1,19 +1,13 @@
-﻿using LMS2.Models.ViewModels;
-using LMS2.Repository;
+﻿using LMS2.Repository;
 using LMS2.Utility;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Runtime.Intrinsics.X86;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Cors;
+using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 
 namespace LMS2.Controllers
 {
-    
-    
+
+
     /// <summary>
     /// Book Routes
     /// </summary>
@@ -41,7 +35,6 @@ namespace LMS2.Controllers
         /// Get All Books Data
         /// </summary>
         /// <returns></returns>
-        //[EnableCors("AllowLocalhost")]
         [HttpGet]
         public JsonResult Get(int pageNumber, int pageSize) {
             try
@@ -49,7 +42,7 @@ namespace LMS2.Controllers
                 ValidationUtility.PageInfoValidator(pageNumber, pageSize);
                 var res = _booksRepository.GetAllBooksByPagination(pageNumber, pageSize);
                
-                return new JsonResult(new { maxPages=res.Item2, data = res.Item1 });
+                return res;
             }
             catch (Exception ex) { 
                 Logger.LogException(ex);
@@ -154,7 +147,7 @@ namespace LMS2.Controllers
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet("search")]
-        public JsonResult GetBookBySearch([FromQuery]RequestBook requestBook, int pageNumber = 1, int pageSize = int.MaxValue) {
+        public JsonResult GetBookBySearch([FromQuery]SearchBook requestBook, int pageNumber = 1, int pageSize = int.MaxValue) {
             try
             {
                 ValidationUtility.ObjectIsNullOrEmpty(requestBook);
@@ -162,8 +155,8 @@ namespace LMS2.Controllers
                 ValidationUtility.PageInfoValidator(pageNumber, pageSize);
 
                 var res = _booksRepository.GetBooksBySearchParams( pageNumber, pageSize, requestBook);
-                _booksRepository.Save();
-                return new JsonResult(new {maxPages=res.Item2, data=res.Item1});
+                
+                return res;
             }
             catch (Exception ex)
             {
