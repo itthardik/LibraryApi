@@ -1,6 +1,6 @@
 ﻿using LMS2.DataContext;
 using LMS2.Models;
-using LMS2.Models.ViewModels;
+using LMS2.Models.ViewModels.Request;
 
 namespace LMS2.Utility
 {

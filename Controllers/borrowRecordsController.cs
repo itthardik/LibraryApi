@@ -1,5 +1,6 @@
 ﻿using LMS2.Models;
-using LMS2.Models.ViewModels;
+using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 using LMS2.Repository;
 using LMS2.Utility;
 using Microsoft.AspNetCore.Mvc;
@@ -7,8 +8,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace LMS2.Controllers
 {
-    
-    
+
+
     /// <summary>
     /// BorrowRecord Routes
     /// </summary>

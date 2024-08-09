@@ -1,5 +1,4 @@
 ﻿using LMS2.DataContext;
-using LMS2.Models.ViewModels;
 using LMS2.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -7,6 +6,9 @@ using System.Linq;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
+using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LMS2.Utility
 {
@@ -259,38 +261,16 @@ namespace LMS2.Utility
         /// Filter Books By Search Params
         /// </summary>
 
-        static public (IQueryable<Book>, int) FilterBooksBySearchParams(IQueryable<Book> allBooks, RequestBook book, int pageNumber, int pageSize)
+        static public IEnumerable<Book> FilterBooksBySearchParams(ApiContext _context, SearchBook book)
         {
-            try { 
-            var query = allBooks.AsQueryable();
-
-            IQueryable<Book> finalQuery = query.Where(record => false);
-
-            if (book.Title != null)
+            try
             {
-                finalQuery = finalQuery.Union(query.Where(record => (record.Title??"").Contains(book.Title)));
-            }
-
-            if (book.AuthorName != null)
-            {
-                finalQuery = finalQuery.Union(query.Where(record => (record.AuthorName??"").Contains(book.AuthorName)));
-            }
-
-            if (book.Genre != null)
-            {
-                finalQuery = finalQuery.Union(query.Where(record => (record.Genre??"").Contains(book.Genre)));
-            }
-
-            if (book.PublisherName != null)
-            {
-                finalQuery = finalQuery.Union(query.Where(record => (record.PublisherName??"").Contains(book.PublisherName)));
-            }
-
-            var maxPages = (int)Math.Ceiling((decimal )(finalQuery.Count()) / pageSize);
-
-            var finalData = finalQuery.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
-
-            return (finalData, maxPages);
+                return _context.Books.FromSqlRaw<Book>("EXEC SearchBooksByParam @title, @authorName, @genre, @publisherName;",
+                                                     new SqlParameter("@title", book.Title ?? (object)DBNull.Value),
+                                                     new SqlParameter("@authorName", book.AuthorName ?? (object)DBNull.Value),
+                                                     new SqlParameter("@genre", book.Genre ?? (object)DBNull.Value),
+                                                     new SqlParameter("@publisherName", book.PublisherName ?? (object)DBNull.Value)
+                                                     ).AsEnumerable<Book>();
             }
             catch (Exception ex)
             {

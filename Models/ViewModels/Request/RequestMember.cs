@@ -1,36 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LMS2.Models
+namespace LMS2.Models.ViewModels.Request
 {
     /// <summary>
-    /// Member model
+    /// Request Class for Member
     /// </summary>
-    public class Member
+    public class RequestMember
     {
         /// <summary>
-        /// Primary key with auto increment
+        /// Name and has limit upto 300
         /// </summary>
-        [Key]
-        public int? Id { get; private set; }
-        /// <summary>
-        /// Name is required and has limit upto 300
-        /// </summary>
-        [Required]
         [StringLength(100)]
         public string? Name { get; set; }
         /// <summary>
-        /// Email is required and has limit upto 100 and regx to validate
+        /// Email and has limit upto 100 and regx to validate
         /// </summary>
-        [Required]
         [StringLength(100)]
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email format")]
         public string? Email { get; set; }
         /// <summary>
-        /// MobileNumber is required and has regx to validate
+        /// MobileNumber and has regx to validate
         /// </summary>
-        [Required]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid phone number. Phone number must be 10 digits.")]
-        public Int64? MobileNumber { get; set; }
+        public int? MobileNumber { get; set; }
         /// <summary>
         /// Address is not required
         /// </summary>
@@ -40,17 +32,9 @@ namespace LMS2.Models
         /// </summary>
         public string? City { get; set; }
         /// <summary>
-        /// Pincode is required and has regx to validate
+        /// Pincode and has regx to validate
         /// </summary>
         [RegularExpression(@"^\d{6}$", ErrorMessage = "Invalid pincode. Pincode must be 6 digits.")]
         public string? Pincode { get; set; }
-        /// <summary>
-        /// is Deleted mark
-        /// </summary>
-        public bool IsDeleted { get; set; } = false;
-        /// <summary>
-        /// Created Date is auto set as current dateTime
-        /// </summary>
-        public DateTime CreatedAt { get; private set; } = DateTime.Now;
     }
 }
