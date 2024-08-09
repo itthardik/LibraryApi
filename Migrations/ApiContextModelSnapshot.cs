@@ -74,7 +74,7 @@ namespace LMS2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("LMS2.Models.BorrowRecord", b =>
@@ -118,7 +118,7 @@ namespace LMS2.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("BorrowRecords");
+                    b.ToTable("BorrowRecords", (string)null);
                 });
 
             modelBuilder.Entity("LMS2.Models.Member", b =>
@@ -160,7 +160,7 @@ namespace LMS2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Members");
+                    b.ToTable("Members", (string)null);
                 });
 
             modelBuilder.Entity("LMS2.Models.BorrowRecord", b =>
