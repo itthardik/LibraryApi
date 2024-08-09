@@ -1,14 +1,15 @@
 ﻿using LMS2.DataContext;
 using LMS2.Models;
-using LMS2.Models.ViewModels;
+using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 using LMS2.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LMS2.Repository
 {
-    
-    
+
+
     /// <summary>
     /// Member Repo
     /// </summary>
@@ -35,7 +36,7 @@ namespace LMS2.Repository
         /// Get All Members
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Member> GetAllMembers()
+        private IQueryable<Member> GetAllMembers()
         {
             var allMembers = _context.Members
                                 .Where<Member>(m => m.IsDeleted == false)
@@ -75,9 +76,9 @@ namespace LMS2.Repository
 
             var maxPages = (int)Math.Ceiling((decimal)(allMembers.Count()) / pageSize);
 
-            var booksByPagination = allMembers.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            var membersByPagination = allMembers.Skip((pageNumber - 1) * pageSize).Take(pageSize);
 
-            return new JsonResult( new{ maxPages, data = booksByPagination });
+            return new JsonResult( new{ maxPages, data = membersByPagination });
         }
         
         /// <summary>
@@ -114,7 +115,7 @@ namespace LMS2.Repository
         /// <param name="id"></param>
         /// <param name="requestMember"></param>
         /// <returns></returns>
-        public Member UpdateMember(int id, RequestMember? requestMember)
+        public Member UpdateMember(int id, RequestMember requestMember)
         {
             if (id == 0)
                 throw new CustomException("Id cannot be Zero");

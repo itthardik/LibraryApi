@@ -1,6 +1,7 @@
 ﻿using LMS2.DataContext;
 using LMS2.Models;
-using LMS2.Models.ViewModels;
+using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 using LMS2.Utility;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -8,8 +9,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LMS2.Repository
 {
-    
-    
+
+
     /// <summary>
     /// Borrow Record Repo
     /// </summary>

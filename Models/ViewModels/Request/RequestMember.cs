@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LMS2.Models.ViewModels
+namespace LMS2.Models.ViewModels.Request
 {
     /// <summary>
     /// Request Class for Member

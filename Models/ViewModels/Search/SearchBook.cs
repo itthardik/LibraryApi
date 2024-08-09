@@ -1,21 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LMS2.Models.ViewModels
+namespace LMS2.Models.ViewModels.Search
 {
     /// <summary>
-    /// model for request book
+    /// search book class
     /// </summary>
-    public class RequestBook
+    public class SearchBook
     {
         /// <summary>
         /// Title has limit upto 300
         /// </summary>
         [StringLength(300)]
         public string? Title { get; set; }
-        /// <summary>
-        /// Description 
-        /// </summary>
-        public string? Description { get; set; }
         /// <summary>
         /// Author name has limit upto 300
         /// </summary>
@@ -29,20 +25,7 @@ namespace LMS2.Models.ViewModels
         /// <summary>
         /// Publisher Name has limit upto 300
         /// </summary>
+        [StringLength(300)]
         public string? PublisherName { get; set; }
-        /// <summary>
-        /// Publisher Desc 
-        /// </summary>
-        public string? PublisherDescription { get; set; }
-        /// <summary>
-        /// Price cannot be negative
-        /// </summary>
-        [Range(0, int.MaxValue)]
-        public int? Price { get; set; }
-        /// <summary>
-        /// current stock cannot be negative
-        /// </summary>
-        [Range(0, int.MaxValue)]
-        public int? CurrentStock { get; set; }
     }
 }
