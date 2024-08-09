@@ -22,7 +22,7 @@ namespace LMS2.Models.ViewModels.Request
         /// MobileNumber and has regx to validate
         /// </summary>
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid phone number. Phone number must be 10 digits.")]
-        public int? MobileNumber { get; set; }
+        public string? MobileNumber { get; set; }
         /// <summary>
         /// Address is not required
         /// </summary>

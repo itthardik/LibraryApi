@@ -220,8 +220,12 @@ namespace LMS2.Repository
         /// <exception cref="Exception"></exception>
         public int GetOverallPenaltyByMemberId(int memberId)
         {
-            var allBorrowRecordsByMemberId = GetAllBorrowRecords()
+            var allBorrowRecordsByMemberId = _context.BorrowRecords
+                                    .Where<BorrowRecord>(b => b.IsDeleted == false)
                                     .Where(b => b.MemberId == memberId)
+                                    .Include(br => br.Member)
+                                    .Include(br => br.Book)
+                                    .OrderByDescending(b => b.CreatedAt)
                                     .ToList();
 
             if (allBorrowRecordsByMemberId.IsNullOrEmpty())
