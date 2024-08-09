@@ -182,7 +182,7 @@ namespace LMS2.Controllers
             try
             {
                 var res = _borrowRecordsRepository.GetOverallPenaltyByMemberId(id);
-                return new JsonResult(new { message = "Penalty amount is " + res });
+                return new JsonResult(new { message = res });
             }
             catch (Exception ex)
             {

@@ -41,6 +41,10 @@ namespace LMS2.Utility
         /// <exception cref="Exception"></exception>
         static public void IsBorrowRecordAlreadyExist(IQueryable<BorrowRecord> allBorrowRecords, RequestBorrowRecord requestBorrowRecord)
         {
+            if (!allBorrowRecords.Any())
+            {
+                return;
+            }
             var check = allBorrowRecords
                         .Where(x => (
                             x.BookId == requestBorrowRecord.BookId &&
