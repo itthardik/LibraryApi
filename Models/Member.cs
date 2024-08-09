@@ -30,7 +30,7 @@ namespace LMS2.Models
         /// </summary>
         [Required]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid phone number. Phone number must be 10 digits.")]
-        public int? MobileNumber { get; set; }
+        public Int64? MobileNumber { get; set; }
         /// <summary>
         /// Address is not required
         /// </summary>
