@@ -4,6 +4,7 @@ using LMS2.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS2.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    partial class ApiContextModelSnapshot : ModelSnapshot
+    [Migration("20240809031945_mobileNumberTypeChange")]
+    partial class mobileNumberTypeChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,7 +77,7 @@ namespace LMS2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("LMS2.Models.BorrowRecord", b =>
@@ -118,7 +121,7 @@ namespace LMS2.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("BorrowRecords", (string)null);
+                    b.ToTable("BorrowRecords");
                 });
 
             modelBuilder.Entity("LMS2.Models.Member", b =>
@@ -160,7 +163,7 @@ namespace LMS2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Members", (string)null);
+                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("LMS2.Models.BorrowRecord", b =>

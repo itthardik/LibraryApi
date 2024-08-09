@@ -1,6 +1,7 @@
 ﻿using LMS2.DataContext;
 using LMS2.Models;
-using LMS2.Models.ViewModels;
+using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 using LMS2.Utility;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -8,8 +9,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LMS2.Repository
 {
-    
-    
+
+
     /// <summary>
     /// Borrow Record Repo
     /// </summary>
@@ -94,7 +95,9 @@ namespace LMS2.Repository
             if (requestBorrowRecord == null)
                 throw new CustomException("Invalid Format");
 
-            ValidationUtility.IsBorrowRecordAlreadyExist(GetAllBorrowRecords(), requestBorrowRecord);
+            var allBorrowRecord = _context.BorrowRecords.Where<BorrowRecord>(b => b.IsDeleted == false);
+
+            ValidationUtility.IsBorrowRecordAlreadyExist(allBorrowRecord, requestBorrowRecord);
 
             ValidationUtility.CheckValidBorrowDate(requestBorrowRecord);
 
@@ -217,12 +220,16 @@ namespace LMS2.Repository
         /// <exception cref="Exception"></exception>
         public int GetOverallPenaltyByMemberId(int memberId)
         {
-            var allBorrowRecordsByMemberId = GetAllBorrowRecords()
+            var allBorrowRecordsByMemberId = _context.BorrowRecords
+                                    .Where<BorrowRecord>(b => b.IsDeleted == false)
                                     .Where(b => b.MemberId == memberId)
+                                    .Include(br => br.Member)
+                                    .Include(br => br.Book)
+                                    .OrderByDescending(b => b.CreatedAt)
                                     .ToList();
 
             if (allBorrowRecordsByMemberId.IsNullOrEmpty())
-                throw new CustomException("No member found with this Id");
+                throw new CustomException("No Borrow Records found with this Member Id");
 
             var sum = 0;
             foreach(var  b in allBorrowRecordsByMemberId)

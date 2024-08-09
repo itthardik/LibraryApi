@@ -1,19 +1,14 @@
-﻿using LMS2.DataContext;
-using LMS2.Models;
-using LMS2.Models.ViewModels;
+﻿using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 using LMS2.Repository;
 using LMS2.Utility;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Text.RegularExpressions;
 
 namespace LMS2.Controllers
 {
-    
-    
-    
+
+
+
     /// <summary>
     /// Member Routes
     /// </summary>
@@ -45,17 +40,18 @@ namespace LMS2.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult Get(int pageNumber, int pageSize)
         {
             try
             {
-                var res = _membersRepository.GetAllMembers();
-                return new JsonResult(new { data = res.ToList() });
+                ValidationUtility.PageInfoValidator(pageNumber, pageSize);
+                var res = _membersRepository.GetAllMemberByPagination(pageNumber, pageSize);
+                return res;
             }
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
 
@@ -77,7 +73,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
         
@@ -101,17 +97,17 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
-        
-        
+
+
         /// <summary>
         /// Delete Existing Member by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public JsonResult DeleteMember(int id)
         {
             try
@@ -123,7 +119,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
         
@@ -135,7 +131,7 @@ namespace LMS2.Controllers
         /// <param name="member"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public JsonResult PatchMember(int id,RequestMember? member)
+        public JsonResult PatchMember(int id,RequestMember member)
         {
             try
             {
@@ -148,7 +144,7 @@ namespace LMS2.Controllers
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
 
@@ -159,7 +155,7 @@ namespace LMS2.Controllers
         /// Search member by Name, Email, MobileNumber, City and Pincode
         /// </summary>
         [HttpGet("search")]
-        public JsonResult GetMemberBySearch([FromQuery]RequestMember requestMember, int pageNumber = 1, int pageSize = int.MaxValue)
+        public JsonResult GetMemberBySearch([FromQuery]SearchMember requestMember, int pageNumber = 1, int pageSize = int.MaxValue)
         {
             try
             {
@@ -168,13 +164,13 @@ namespace LMS2.Controllers
                 ValidationUtility.PageInfoValidator(pageNumber, pageSize);
 
                 var res = _membersRepository.GetMembersBySearchParams(pageNumber, pageSize, requestMember);
-                _membersRepository.Save();
-                return new JsonResult(res);
+                
+                return res;
             }
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                return new JsonResult(new { error = ex.Message });
+                return new JsonResult(new { error = ex.Message, type = ex.GetType().ToString() });
             }
         }
     }

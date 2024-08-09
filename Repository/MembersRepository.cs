@@ -1,13 +1,15 @@
 ﻿using LMS2.DataContext;
 using LMS2.Models;
-using LMS2.Models.ViewModels;
+using LMS2.Models.ViewModels.Request;
+using LMS2.Models.ViewModels.Search;
 using LMS2.Utility;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LMS2.Repository
 {
-    
-    
+
+
     /// <summary>
     /// Member Repo
     /// </summary>
@@ -34,7 +36,7 @@ namespace LMS2.Repository
         /// Get All Members
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Member> GetAllMembers()
+        private IQueryable<Member> GetAllMembers()
         {
             var allMembers = _context.Members
                                 .Where<Member>(m => m.IsDeleted == false)
@@ -62,7 +64,22 @@ namespace LMS2.Repository
 
             return members[0];
         }
-        
+        /// <summary>
+        /// Get req for all books with pagination
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JsonResult GetAllMemberByPagination(int pageNumber, int pageSize)
+        {
+            var allMembers = GetAllMembers();
+
+            var maxPages = (int)Math.Ceiling((decimal)(allMembers.Count()) / pageSize);
+
+            var membersByPagination = allMembers.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            return new JsonResult( new{ maxPages, data = membersByPagination });
+        }
         
         /// <summary>
         /// Add new member
@@ -98,7 +115,7 @@ namespace LMS2.Repository
         /// <param name="id"></param>
         /// <param name="requestMember"></param>
         /// <returns></returns>
-        public Member UpdateMember(int id, RequestMember? requestMember)
+        public Member UpdateMember(int id, RequestMember requestMember)
         {
             if (id == 0)
                 throw new CustomException("Id cannot be Zero");
@@ -122,16 +139,18 @@ namespace LMS2.Repository
         /// <param name="newMember"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IQueryable<Member> GetMembersBySearchParams(int pageNumber, int pageSize, RequestMember newMember)
+        public JsonResult GetMembersBySearchParams(int pageNumber, int pageSize, SearchMember newMember)
         {
-            var result = CustomUtility.FilterMembersBySearchParams ( _context, newMember, pageNumber, pageSize);
+            var result = CustomUtility.FilterMembersBySearchParams ( _context, newMember);
 
             if (result.IsNullOrEmpty())
             {
                 throw new CustomException("No Members Found");
             }
-            
-            return result;
+            var maxPages = (int)Math.Ceiling((decimal)(result.Count()) / pageSize);
+
+            var finalData = result.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            return new JsonResult(new {maxPages, data = finalData});
         }
 
 
